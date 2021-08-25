@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "allowJs": false,
+    "target": "ES2017",
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "declaration": true,
+    "lib": [
+      "es2017",
+      "es7",
+      "es6"
+    ],
+    "removeComments": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "pretty": true,
+    "allowUnreachableCode": true,
+    "allowUnusedLabels": true,
+    "noImplicitAny": true,
+    "strict": true,
+    "noImplicitReturns": false,
+    "noImplicitUseStrict": false,
+    "outDir": "dist",
+    "baseUrl": "src",
+    "noEmitHelpers": false,
+    "esModuleInterop": true
+  },
+  "compileOnSave": false,
+  "exclude": [
+    "node_modules"
+  ]
+}
