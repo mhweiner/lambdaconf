@@ -1,4 +1,3 @@
-# This workflow will do a clean install of node dependencies, build the source code, run tests and lint
 name: build
 on:
   pull_request:
@@ -13,6 +12,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-        run: npm ci
-        run: npm run lint
-        run: npm test
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test
