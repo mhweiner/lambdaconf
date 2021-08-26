@@ -1,5 +1,5 @@
 {
-  "name": "@koneksahealth/config",
+  "name": "jazz-config",
   "version": "0.0.0",
   "description": "",
   "main": "dist/index.js",
@@ -9,10 +9,7 @@
   "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/KoneksaHealth/config.git"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/KoneksaHealth"
+    "url": "git+https://github.com/mhweiner/jazz-config.git"
   },
   "files": [
     "/dist",
@@ -24,15 +21,12 @@
     "build": "rm -rf ./dist && tsc --project ./tsconfig.build.json",
     "prepare": "npm run build"
   },
-  "homepage": "https://github.com/KoneksaHealth/config#readme",
   "dependencies": {
     "@types/prettier": "2.0.2",
     "prettier": "2.0.5"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "1.0.1",
-    "@koneksahealth/eslint-config": "1.0.2",
-    "@koneksahealth/ktest": "3.0.4",
     "@types/node": "14.0.24",
     "@types/sinon": "9.0.4",
     "@types/tape": "4.13.0",
