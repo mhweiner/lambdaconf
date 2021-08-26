@@ -9,18 +9,10 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js
-        uses: actions/setup-node@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
         with:
-          node-version: '10.x'
-          registry-url: https://npm.pkg.github.com/
-          scope: '@koneksahealth'
-      - name: Install Dependencies & Build
+          node-version: ${{ matrix.node-version }}
         run: npm ci
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GH_KONEKSA_DEPLOY_PAT_READ_ONLY}}
-          GITHUB_TOKEN: ${{secrets.GH_KONEKSA_DEPLOY_PAT_READ_ONLY}}
-      - name: Linter
         run: npm run lint
-      - name: Tests
         run: npm test
