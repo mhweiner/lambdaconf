@@ -115,12 +115,15 @@ Configurations are merged in order of importance, from least to most:
 
 These can be provided via CLI or `process.env`:
 
-| **name**           | **process.env**     | **directory**         |
+| **name**           | **process.env**     | **source**            |
 | ------------------ | ------------------- | ----------------------|
+| default            | N/A                 | /config/default.json  |
 | environment        | `NODE_ENV`          | /config/environments/ |
 | deployment         | `DEPLOYMENT`        | /config/deployments/  |
 | user               | `USER`              | /config/users/        |
-| overrides          | `OVERRIDE`          | N/A                   |
+| overrides          | `OVERRIDE`          | CLI or process.env    |
+
+A few notes:
 
 - `OVERRIDE` must be a valid JSON string with escaped quotes. Example:
 
@@ -173,24 +176,25 @@ interface Loader {
 }
 ```
 
-## How to build locally
+## Contribution
+
+Please contribute to this project! Issue a PR against `master` and request review. 
+
+- Please test your work thoroughly.
+- Make sure all tests pass with appropriate coverage.
+
+### How to build locally
 
 ```bash
 npm i
 ```
 
-## Running tests
+### Running tests
 
 ```shell script
 npm test
 ```
 
-Check package.json for other runners.
-
-## How to contribute
-
-Issue a PR against `master` and request review. Make sure all tests pass and coverage is good.
-
-## How to publish
+### How to publish (for owners)
 
 Create a release off of `master`. Be sure to use proper semver. Use `-rc[x]` for pre-releases. Also make sure to check 'pre-release' in GitHub page if you are publishing a pre-release. 
