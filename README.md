@@ -1,17 +1,22 @@
-# jazz-config
+# configspace
 
-![Build Status](https://github.com/mhweiner/jazz-config/workflows/Build/badge.svg)
+A simple yet powerful typed config library, written in TypeScript, that supports lambdas and differentiates between environment and deployment.
 
-A simple yet powerful config library written in TypeScript for use with node applications.
-
-- Simple, easy to use.
-- Automatically generated Typescript typings.
-- Works with AWS Secrets Manager, AWS Parameter Store, or custom lambda functions.
+- Simple, easy to use API, and thorough documentation.
+- Automatically generated Typescript typings for both "intellisense" IDE support and compile-time errors.
+- Works with AWS Secrets Manager, AWS Parameter Store, or custom dynamic lambda functions.
+- `.json` files (no code) help keep configs clean and flexible. Any required code goes in lambda functions ("loaders").
+- Differentiates between concepts such as `environment`, `deployment`, and `user` and provides an out-of-the-box
+  solution with sensible folder structure and merge strategy.
+- Provides for overrides via CLI without polluting the CLI argument namespace.
+- Forces user to put all possible settings into one default file for increased transparency and readability. Any override
+  must satisfy `Partial<DefaultConfig>`.
+- Clean, simple, readable code for future updates with minimal dependencies.
 
 ## Installation
 
 ```bash
-npm i jazz-config -DE
+npm i configspace -DE
 ```
 
 ## Setup
@@ -63,12 +68,12 @@ npm i jazz-config -DE
 
 _First, make sure you have already done everything in Setup above!_
 
-#### Loading configuration
+### Loading the Configuration
 
-You must first load the config, which resolves any `loaders` and performs the merge.
+You must first *load* the config, which resolves any `loaders` and performs the merge.
 
 ```typescript
-import {loadConfig, getConfig} from "jazz-config";
+import {loadConfig, getConfig} from "configspace";
 
 loadConfig().then(() => {
 
@@ -78,12 +83,12 @@ loadConfig().then(() => {
 }).catch(console.log.bind(console));
 ```
 
-#### Get config
+### Getting the Config Object
 
 Once loaded, use `getConfig` to access:
 
 ```typescript
-import {getConfig} from "jazz-config";
+import {getConfig} from "configspace";
 
 const config = getConfig(); // type of Config is inferred
 
@@ -95,10 +100,10 @@ const isFooBarEnabled: boolean = config.foo.bar; // Typescript error if does not
 If you need the type interface, you can import it:
 
 ```typescript
-import {Config} from "jazz-config";
+import {Config} from "configspace";
 ```
 
-#### How merging works & runtime configuration
+### Configuration, Overrides, and Merge Strategy
 
 Configurations are merged in order of importance, from least to most:
  
@@ -127,7 +132,7 @@ NODE_ENV=development OVERRIDE="{\"a\": {\"b\": \"q\"}}" ts-node src/index.ts
 - `loaders` parameters are not merged. A `loader` instance is treated as a primitive. 
 - Arrays are not merged
 
-#### Loaders
+### Loaders
 
 Loaders are lambda functions that can return any value. They are run once during the type declaration build step, and once while the configuration is loading. They can be
 normal functions or use async/await/Promise.
@@ -135,7 +140,7 @@ normal functions or use async/await/Promise.
 To register a loader, simply pass them to `loadConfig()`:
 
 ```typescript
-import {loadConfig} from "jazz-config";
+import {loadConfig} from "configspace";
 
 const loaders = [
     {foo_loader: async (params: {a: string}) => 'foo_' + params.a}
@@ -168,22 +173,6 @@ interface Loader {
 }
 ```
 
-## Why write our own config?
-
-There are many available npm open-source packages for handling configurations. However, none of them seemed to satisfy all of our requirements:
-
-- Offer static typing via Typescript for both "intellisense" IDE support and compile-time errors.
-- Support dynamic configurations (lambda functions) like fetching from AWS Secrets Manager or Systems Manager Parameter Store.
-- Support lambda functions via `.json` files to help keep configs clean and flexible.
-- Differentiates between concepts such as `environment`, `deployment`, and `user` and provides an out-of-the-box
-solution with sensible folder structure and merge strategy.
-- Provides for overrides via CLI without polluting the CLI argument namespace.
-- Forces user to put all possible settings into one default file for increased transparency and readability. In our opinion, any override
-should satisfy `Partial<DefaultConfig>`.
-- Easy to use API and thorough documentation.
-- Clean, simple, readable code for future updates with minimal dependencies.
-- Not stale. Good support/backing
-
 ## How to build locally
 
 ```bash
@@ -204,4 +193,4 @@ Issue a PR against `master` and request review. Make sure all tests pass and cov
 
 ## How to publish
 
-Create a release off of `master`. Be sure to use proper semver. We favor `-rc[x]` for pre-releases. Also make sure to check 'pre-release' in GitHub page if you are publishing a pre-release. 
+Create a release off of `master`. Be sure to use proper semver. Use `-rc[x]` for pre-releases. Also make sure to check 'pre-release' in GitHub page if you are publishing a pre-release. 
