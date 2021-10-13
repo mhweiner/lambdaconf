@@ -115,13 +115,13 @@ Configurations are merged in order of importance, from least to most:
 
 These can be provided via CLI or `process.env`:
 
-| **name**           | **process.env**     | **source**            |
-| ------------------ | ------------------- | ----------------------|
-| default            | N/A                 | /config/default.json  |
-| environment        | `NODE_ENV`          | /config/environments/ |
-| deployment         | `DEPLOYMENT`        | /config/deployments/  |
-| user               | `USER`              | /config/users/        |
-| overrides          | `OVERRIDE`          | CLI or process.env    |
+| **name**           | **process.env**     | **source**                             |
+| ------------------ | ------------------- | ---------------------------------------|
+| default            | N/A                 | /config/default.json                   |
+| environment        | `NODE_ENV`          | /config/environments/[NODE_ENV].json   |
+| deployment         | `DEPLOYMENT`        | /config/deployments/[DEPLOYMENT].json  |
+| user               | `USER`              | /config/users/[USER].json              |
+| overrides          | `OVERRIDE`          | N/A                                    |
 
 A few notes:
 

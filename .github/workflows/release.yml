@@ -5,7 +5,7 @@ on:
   push:
     branches:
       - master
-      - candidate-*
+      - rc-*
 jobs:
   publish-gpr:
     runs-on: ubuntu-18.04
