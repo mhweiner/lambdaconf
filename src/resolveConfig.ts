@@ -7,7 +7,7 @@ export async function resolveConfig(
     path: string[] = [],
 ) {
 
-    const resolvedConfig: {[key: string]: any} = obj; //it starts out as unresolved
+    const resolvedConfig: {[key: string]: any} = obj; // it starts out as unresolved
 
     await Promise.all(Object.keys(obj).map(async (key: string) => {
 
@@ -29,7 +29,7 @@ export async function resolveConfig(
 
     }));
 
-    return resolvedConfig; //it's resolved now
+    return resolvedConfig;
 
 }
 

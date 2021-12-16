@@ -1,7 +1,7 @@
 import {test} from 'hoare';
 import {stub} from 'sinon';
 import * as getUnresolvedConfigModule from './getUnresolvedConfig';
-import {mock} from "cjs-mock";
+import {mock} from 'cjs-mock';
 
 test('empty case', (assert) => {
 
@@ -65,6 +65,7 @@ test('default config only, {foo: bar}', (assert) => {
 
 });
 
+// eslint-disable-next-line max-lines-per-function
 test('multiple configs, edge cases, etc.', (assert) => {
 
     // given
