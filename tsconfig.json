@@ -1,22 +1,18 @@
 {
   "compilerOptions": {
-    "allowJs": false,
-    "target": "ES2017",
+    "allowJs": true,
+    "target": "ES2015",
     "moduleResolution": "node",
-    "module": "commonjs",
+    "module": "CommonJS",
     "declaration": true,
-    "lib": [
-      "es2017",
-      "es7",
-      "es6"
-    ],
+    "lib": ["ES2020"],
     "removeComments": false,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
+    "emitDecoratorMetadata": false,
+    "experimentalDecorators": false,
     "sourceMap": true,
     "pretty": true,
-    "allowUnreachableCode": true,
-    "allowUnusedLabels": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
     "noImplicitAny": true,
     "strict": true,
     "noImplicitReturns": false,
@@ -26,8 +22,11 @@
     "noEmitHelpers": false,
     "esModuleInterop": true
   },
-  "compileOnSave": false,
+  "include":[
+    "src/**/*"
+  ],
   "exclude": [
     "node_modules"
-  ]
+  ],
+  "compileOnSave":false
 }

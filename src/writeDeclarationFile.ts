@@ -1,4 +1,3 @@
-import * as prettier from 'prettier';
 import * as fs from 'fs';
 import {getUnresolvedConfig} from './getUnresolvedConfig';
 import {resolveConfig} from './resolveConfig';
@@ -9,19 +8,13 @@ export async function writeDeclarationFile() {
     const unresolvedDefaultConfig = getUnresolvedConfig();
     const defaultConfig = await resolveConfig(unresolvedDefaultConfig);
     const file = `${getDistDir()}/Config.d.ts`;
-    const ts = prettier.format(
-        `
+    const ts = `
       export interface Config {
           ${getInterfaceProperties(defaultConfig)}
       }
-    `,
-        {
-            parser: 'typescript',
-        }
-    );
+    `;
 
     console.log(`writing Config type declaration file to ${file}`);
-
     fs.writeFileSync(file, ts);
 
 }
