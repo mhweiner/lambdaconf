@@ -1,5 +1,5 @@
 {
-  "name": "typedconfig",
+  "name": "typedenv",
   "version": "0.0.0-semantic-release",
   "description": "A small, yet powerful typed and structured config library with lambda support for things like AWS Secrets Manager. Written in Typescript.",
   "license": "MIT",
