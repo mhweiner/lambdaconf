@@ -1,8 +1,9 @@
 {
-  "name": "typedenv",
+  "name": "@mhweiner/typedconfig",
   "version": "0.0.0-semantic-release",
   "description": "A small, yet powerful typed and structured config library with lambda support for things like AWS Secrets Manager. Written in Typescript.",
   "license": "MIT",
+  "author": "Marc H. Weiner <mhweiner234@gmail.com> (http://mhweiner.com)",
   "main": "./dist/index.js",
   "bin": {
     "typedconfig": "./bin/cli.js"
