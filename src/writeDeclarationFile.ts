@@ -1,6 +1,6 @@
 import * as fs from 'fs';
-import {getUnresolvedConf} from './getUnresolvedConfig';
-import {resolveConf} from './resolveConfig';
+import {getUnresolvedConf} from './getUnresolvedConf';
+import {resolveConf} from './resolveConf';
 
 export async function writeDeclarationFile() {
 
