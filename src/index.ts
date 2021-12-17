@@ -1,42 +1,42 @@
-import {ConfigNotLoaded} from './errors';
+import {ConfNotLoaded} from './errors';
 import {getEnvArguments} from './getEnvArguments';
-import {getUnresolvedConfig} from './getUnresolvedConfig';
-import {resolveConfig} from './resolveConfig';
-import {Config} from './Config';
+import {getUnresolvedConf} from './getUnresolvedConf';
+import {resolveConf} from './resolveConf';
+import {Conf} from './Conf';
 
 export interface Loader {
     [key: string]: (params: object) => any
 }
 
-let resolvedConfig: {[key: string]: any};
+let resolvedConf: {[key: string]: any};
 
-export async function loadConfig(loaders?: Loader[]): Promise<Config> {
+export async function loadConf(loaders?: Loader[]): Promise<Conf> {
 
     const env = getEnvArguments();
-    const unresolvedConfig = getUnresolvedConfig(
+    const unresolvedConf = getUnresolvedConf(
         env.environment,
         env.deployment,
         env.user,
         env.overrides
     );
 
-    resolvedConfig = await resolveConfig(unresolvedConfig, loaders);
+    resolvedConf = await resolveConf(unresolvedConf, loaders);
 
-    return resolvedConfig as Config;
+    return resolvedConf as Conf;
 
 }
 
-export function getConfig(): Config {
+export function getConf(): Conf {
 
-    if (!resolvedConfig) {
+    if (!resolvedConf) {
 
-        throw new ConfigNotLoaded();
+        throw new ConfNotLoaded();
 
     }
 
-    return resolvedConfig as Config;
+    return resolvedConf as Conf;
 
 }
 
-export {Config};
+export {Conf};
 export * from './writeDeclarationFile';

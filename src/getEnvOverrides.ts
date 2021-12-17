@@ -1,4 +1,4 @@
-import {InvalidConfig} from './errors';
+import {InvalidConf} from './errors';
 
 export function getEnvOverrides(): {[key: string]: object} {
 
@@ -12,7 +12,7 @@ export function getEnvOverrides(): {[key: string]: object} {
 
         } catch (e) {
 
-            throw new InvalidConfig(['process.env.OVERRIDES is not valid JSON']);
+            throw new InvalidConf(['process.env.OVERRIDES is not valid JSON']);
 
         }
 

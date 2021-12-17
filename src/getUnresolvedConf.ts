@@ -1,7 +1,7 @@
-import {loadConfigFile} from './loadConfigFile';
-import {getConfigDir} from './getConfigDir';
-import {isLoader} from './resolveConfig';
-import {InvalidConfig} from './errors';
+import {loadConfFile} from './loadConfFile';
+import {getConfDir} from './getConfDir';
+import {isLoader} from './resolveConf';
+import {InvalidConf} from './errors';
 
 /**
  * Returns unresolved config. Unresolved means loaders haven't been resolved.
@@ -10,25 +10,25 @@ import {InvalidConfig} from './errors';
  * @param user
  * @param overrides
  */
-export function getUnresolvedConfig(
+export function getUnresolvedConf(
     environment?: string,
     deployment?: string,
     user?: string,
     overrides?: object
 ) {
 
-    const configDir = getConfigDir();
-    const conf_default = loadConfigFile(`${configDir}/default.json`);
+    const configDir = getConfDir();
+    const conf_default = loadConfFile(`${configDir}/default.json`);
 
     if (!conf_default) {
 
-        throw new InvalidConfig(['Unable to find default configuration.']);
+        throw new InvalidConf(['Unable to find default configuration.']);
 
     }
 
-    const conf_environment = environment ? loadConfigFile(`${configDir}/environments/${environment}.json`) : {};
-    const conf_deployment = deployment ? loadConfigFile(`${configDir}/deployments/${deployment}.json`) : {};
-    const conf_user = user ? loadConfigFile(`${configDir}/users/${user}.json`) : {};
+    const conf_environment = environment ? loadConfFile(`${configDir}/environments/${environment}.json`) : {};
+    const conf_deployment = deployment ? loadConfFile(`${configDir}/deployments/${deployment}.json`) : {};
+    const conf_user = user ? loadConfFile(`${configDir}/users/${user}.json`) : {};
     const conf_overrides = overrides || {};
 
     // put into order of importance, least to most

@@ -1,7 +1,7 @@
 import {resolveLoader} from './resolveLoader';
 import {Loader} from '.';
 
-export async function resolveConfig(
+export async function resolveConf(
     obj: {[key: string]: any},
     loaders?: Loader[],
     path: string[] = [],
@@ -21,7 +21,7 @@ export async function resolveConfig(
 
             } else {
 
-                return resolveConfig(value, loaders, [...path, key]);
+                return resolveConf(value, loaders, [...path, key]);
 
             }
 

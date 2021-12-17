@@ -1,11 +1,11 @@
 import * as fs from 'fs';
-import {getUnresolvedConfig} from './getUnresolvedConfig';
-import {resolveConfig} from './resolveConfig';
+import {getUnresolvedConf} from './getUnresolvedConfig';
+import {resolveConf} from './resolveConfig';
 
 export async function writeDeclarationFile() {
 
-    const unresolvedDefaultConfig = getUnresolvedConfig();
-    const defaultConfig = await resolveConfig(unresolvedDefaultConfig);
+    const unresolvedDefaultConfig = getUnresolvedConf();
+    const defaultConfig = await resolveConf(unresolvedDefaultConfig);
     const filepath = `${__dirname}/Config.d.ts`;
     const ts = `
       export interface Config {

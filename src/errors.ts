@@ -1,11 +1,11 @@
-export class InvalidConfig extends Error {
+export class InvalidConf extends Error {
 
     validationErrors: string[];
 
     constructor(validationErrors: string[]) {
 
-        super('INVALID_CONFIG');
-        Error.captureStackTrace(this, InvalidConfig);
+        super('INVALID_CONF');
+        Error.captureStackTrace(this, InvalidConf);
         this.validationErrors = validationErrors;
 
     }
@@ -18,12 +18,12 @@ export class InvalidConfig extends Error {
 
 }
 
-export class ConfigNotLoaded extends Error {
+export class ConfNotLoaded extends Error {
 
     constructor() {
 
-        super('CONFIG_NOT_LOADED');
-        Error.captureStackTrace(this, ConfigNotLoaded);
+        super('CONF_NOT_LOADED');
+        Error.captureStackTrace(this, ConfNotLoaded);
 
     }
 

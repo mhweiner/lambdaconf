@@ -32,10 +32,10 @@ npm i lambdaconf -D
 
 1. Install from npm
 
-2. Create a directory called `/config` in the root of your project and create a `default.json` file. Below is a typical structure:
+2. Create a directory called `/conf` in the root of your project and create a `default.json` file. Below is a typical structure:
     ```shell script
     root/
-    └── config/
+    └── conf/
         └── deployments
             └── test.acme.json
         └── environments
@@ -58,16 +58,18 @@ npm i lambdaconf -D
    
    - None of the above are enforced (except the required default), but future versions may
    check for these conditions and throw an error.
+   
+   - You can specify a custom directory with `process.env.CONF_DIR`
 
 3. Add build step to your build process by using `build-config-type` in your npm scripts as desired. Example:
     
     ```shell script
     "scripts": {
-      "build": "build-config-type"
+      "build": "lambdaconf"
     }
     ```
 
-    Running this will compile the `Config` interface from your `default.json` file. This must be
+    Running this will compile the `Conf` interface from your `default.json` file. This must be
     run before you can use load or access the configuration. We recommend this is run often to ensure your type
     declaration is always up-to-date. Two recommended options are to use `scripts.postinstall` or `scripts.prepare` in
     your package.json file.
@@ -81,39 +83,39 @@ _First, make sure you have already done everything in Setup above!_
 You must first *load* the config, which resolves any `loaders` and performs the merge.
 
 ```typescript
-import {loadConfig, getConfig} from "lambdaconf";
+import {loadConf, getConf} from "lambdaconf";
 
-loadConfig().then(() => {
+loadConf().then(() => {
 
     //start server, etc.
-    console.log(getConfig()); // outputs config object
+    console.log(getConf()); // outputs config object
 
 }).catch(console.log.bind(console));
 ```
 
 ## Getting the Config Object
 
-Once loaded, use `getConfig` to access:
+Once loaded, use `getConf` to access:
 
 ```typescript
-import {getConfig} from "lambdaconf";
+import {getConf} from "lambdaconf";
 
-const config = getConfig(); // type of Config is inferred
+const conf = getConf(); // type of Conf is inferred
 
-console.log(config); // logs config object
+console.log(conf); // logs config object
 
-const isFooBarEnabled: boolean = config.foo.bar; // Typescript error if does not exist or type mismatch
+const isFooBarEnabled: boolean = conf.foo.bar; // Typescript error if does not exist or type mismatch
 ```
 
 If you need the type interface, you can import it:
 
 ```typescript
-import {Config} from "lambdaconf";
+import {Conf} from "lambdaconf";
 ```
 
 ## Configuration, Overrides, and Merge Strategy
 
-Configurations are merged in order of importance, from least to most:
+Configurations are merged in this order, with the later ones overriding the earlier ones:
  
 1. default
 2. environment

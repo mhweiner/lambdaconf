@@ -1,7 +1,7 @@
 import * as fs from 'fs';
-import {InvalidConfig} from './errors';
+import {InvalidConf} from './errors';
 
-export function loadConfigFile(filename: string) {
+export function loadConfFile(filename: string) {
 
     let fileContent;
 
@@ -21,7 +21,7 @@ export function loadConfigFile(filename: string) {
 
     } catch (e) {
 
-        throw new InvalidConfig([`${filename} is not valid JSON`]);
+        throw new InvalidConf([`${filename} is not valid JSON`]);
 
     }
 
