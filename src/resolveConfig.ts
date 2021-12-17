@@ -33,18 +33,10 @@ export async function resolveConfig(
 
 }
 
-/**
- * Returns true if object has only one key and it matches pattern /^\[.*\]$/
- * @param prop
- */
 export function isLoader(prop: {[key: string]: object}) {
 
     const keys = Object.keys(prop);
 
-    if (keys.length === 1) {
-
-        return /^\[.*\]$/.test(keys[0]);
-
-    }
+    return keys.length === 1 && /^\[.*\]$/.test(keys[0]);
 
 }

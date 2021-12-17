@@ -1,27 +1,36 @@
-# configspace
+# lambdaconf
 
-A simple yet powerful typed config library, written in TypeScript, that supports lambdas and differentiates between environment and deployment.
+A small, yet powerful typed and structured config library with lambda support for things like AWS Secrets Manager. Written in Typescript.
 
-- Simple, easy to use API, and thorough documentation.
-- Automatically generated Typescript typings for both "intellisense" IDE support and compile-time errors.
-- Works with AWS Secrets Manager, AWS Parameter Store, or custom dynamic lambda functions.
-- `.json` files (no code) help keep configs clean and flexible. Any required code goes in lambda functions ("loaders").
+**Out-of-the-box Typescript support 🔒**
+- Turn your runtime errors into safer compile-time errors! Automatically generated Typescript type definition for configuration object
+
+**Lambda Support 🤖**
+- Works with AWS Secrets Manager, AWS Parameter Store, or custom dynamic lambda functions
+- Any custom logic can go here, keeping your config files logic-free
+- Provides an easy sharable and reusable plugin interface for sharing or re-use
+
+**Simple & Easy to Use 😃**
+- All settings are in simple `.json` files. No logic (those can go into loaders)
+- Highly structured. Any override must satisfy `Partial<DefaultConfig>`
+- Enforces a simple and sensible folder structure
+- Limited yet powerful feature set with clean documentation
+- Small, simple, and modular codebase written in Typescript with no dependencies.
+
+**Flexible & Powerful 💪**
+- Provides for overrides via CLI without polluting the CLI argument namespace
 - Differentiates between concepts such as `environment`, `deployment`, and `user` and provides an out-of-the-box
-  solution with sensible folder structure and merge strategy.
-- Provides for overrides via CLI without polluting the CLI argument namespace.
-- Forces user to put all possible settings into one default file for increased transparency and readability. Any override
-  must satisfy `Partial<DefaultConfig>`.
-- Clean, simple, readable code for future updates with minimal dependencies.
+  solution with sensible merge strategy
 
-## Installation
+# Installation
 
 ```bash
-npm i configspace -DE
+npm i lambdaconf -D
 ```
 
-## Setup
+# Setup
 
-1. Install
+1. Install from npm
 
 2. Create a directory called `/config` in the root of your project and create a `default.json` file. Below is a typical structure:
     ```shell script
@@ -40,13 +49,12 @@ npm i configspace -DE
    - `default.json` is required, everything else is optional. Recommended practice is that this contains all of your "local development" settings.
    
    - All configuration files must be a subset of the default configuration. That means for a configuration to exist in any 
-   `.json` file, it must also exist in `default.json`. In Typescript terms, all configurations must be of type `Partial<DefaultConfig>`. 
-   In fact, the interface `Config` *is* created from the default. One of the main reasons for this limitation is due to 
-   the fact that otherwise, a type declaration wouldn't be possible at compile time.
+   `.json` file, it must also exist in `default.json`. In Typescript terms, all possible computed configurations must be of type `Partial<DefaultConfig>`. 
+   In fact, the interface `Config` is simply created from the `default.json` file. One of the main reasons for this limitation is that a type declaration wouldn't otherwise be possible at compile time.
    
-   - Arrays should all contain the same type (not mixed).
+   - Arrays should be homogenous (not of mixed types).
    
-   - `loaders` that are on the same property should all return the same type. 
+   - `loaders` that are used the same property in different config files should all return the same type (since again, that type is defined only in default.json)
    
    - None of the above are enforced (except the required default), but future versions may
    check for these conditions and throw an error.
@@ -64,16 +72,16 @@ npm i configspace -DE
     declaration is always up-to-date. Two recommended options are to use `scripts.postinstall` or `scripts.prepare` in
     your package.json file.
     
-## Usage
+# Usage
 
 _First, make sure you have already done everything in Setup above!_
 
-### Loading the Configuration
+## Loading the Configuration
 
 You must first *load* the config, which resolves any `loaders` and performs the merge.
 
 ```typescript
-import {loadConfig, getConfig} from "configspace";
+import {loadConfig, getConfig} from "lambdaconf";
 
 loadConfig().then(() => {
 
@@ -83,12 +91,12 @@ loadConfig().then(() => {
 }).catch(console.log.bind(console));
 ```
 
-### Getting the Config Object
+## Getting the Config Object
 
 Once loaded, use `getConfig` to access:
 
 ```typescript
-import {getConfig} from "configspace";
+import {getConfig} from "lambdaconf";
 
 const config = getConfig(); // type of Config is inferred
 
@@ -100,10 +108,10 @@ const isFooBarEnabled: boolean = config.foo.bar; // Typescript error if does not
 If you need the type interface, you can import it:
 
 ```typescript
-import {Config} from "configspace";
+import {Config} from "lambdaconf";
 ```
 
-### Configuration, Overrides, and Merge Strategy
+## Configuration, Overrides, and Merge Strategy
 
 Configurations are merged in order of importance, from least to most:
  
@@ -135,7 +143,7 @@ NODE_ENV=development OVERRIDE="{\"a\": {\"b\": \"q\"}}" ts-node src/index.ts
 - `loaders` parameters are not merged. A `loader` instance is treated as a primitive. 
 - Arrays are not merged
 
-### Loaders
+## Loaders
 
 Loaders are lambda functions that can return any value. They are run once during the type declaration build step, and once while the configuration is loading. They can be
 normal functions or use async/await/Promise.
@@ -143,7 +151,7 @@ normal functions or use async/await/Promise.
 To register a loader, simply pass them to `loadConfig()`:
 
 ```typescript
-import {loadConfig} from "configspace";
+import {loadConfig} from "lambdaconf";
 
 const loaders = [
     {foo_loader: async (params: {a: string}) => 'foo_' + params.a}
@@ -176,25 +184,21 @@ interface Loader {
 }
 ```
 
-## Contribution
+# Contribution
 
 Please contribute to this project! Issue a PR against `master` and request review. 
 
 - Please test your work thoroughly.
 - Make sure all tests pass with appropriate coverage.
 
-### How to build locally
+## How to build locally
 
 ```bash
 npm i
 ```
 
-### Running tests
+## Running tests
 
 ```shell script
 npm test
 ```
-
-### How to publish (for owners)
-
-Create a release off of `master`. Be sure to use proper semver. Use `-rc[x]` for pre-releases. Also make sure to check 'pre-release' in GitHub page if you are publishing a pre-release. 

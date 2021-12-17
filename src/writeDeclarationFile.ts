@@ -1,21 +1,20 @@
 import * as fs from 'fs';
 import {getUnresolvedConfig} from './getUnresolvedConfig';
 import {resolveConfig} from './resolveConfig';
-import {getDistDir} from './getDistDir';
 
 export async function writeDeclarationFile() {
 
     const unresolvedDefaultConfig = getUnresolvedConfig();
     const defaultConfig = await resolveConfig(unresolvedDefaultConfig);
-    const file = `${getDistDir()}/Config.d.ts`;
+    const filepath = `${__dirname}/Config.d.ts`;
     const ts = `
       export interface Config {
           ${getInterfaceProperties(defaultConfig)}
       }
     `;
 
-    console.log(`writing Config type declaration file to ${file}`);
-    fs.writeFileSync(file, ts);
+    console.log(`writing Config type declaration file to ${filepath}`);
+    fs.writeFileSync(filepath, ts);
 
 }
 
