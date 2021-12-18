@@ -65,7 +65,7 @@ npm i lambdaconf -D
    
    - The default configuration directory is `/conf`, but you can specify a custom directory with `process.env.CONF_DIR`
 
-3. Add build step to your build process in your `package.json` file to build the `Conf` type declaration file. Example:
+3. Call `lambdaconf` in your `package.json` file to build the `Conf` type declaration file whenever the configuration changes. Example:
     
     ```json
     {
@@ -75,7 +75,7 @@ npm i lambdaconf -D
     }
     ```
 
-    This must be run any time the configuration has changed. In the above example, the file will be generated after `npm i`. Some IDEs might have some issues with caching the generated `Conf.d.ts file` (which is stored in `node_modules`). If you run into this problem, try restarting Typescript.
+    This must be run any time the configuration has changed. Feel free to set this up however you want. In the above example, the file will be generated after `npm i`. Some IDEs might have some issues with caching the generated `Conf.d.ts file` (which is stored in `node_modules`). If you run into this problem, try restarting Typescript.
     
 # Usage
 
@@ -191,17 +191,7 @@ loadConfig(loaders)
         .catch(console.log.bind(console));
 ```
 
-Example config using this loader:
-
-```json
-{
-  "foo": {
-    "[foo_loader]": {
-      "a": "demo"
-    }   
-  }
-}
-```
+To register a loader, simply pass it in an array to `loadConfig()`.
 
 ### Formal definition
 
