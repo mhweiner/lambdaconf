@@ -65,18 +65,17 @@ npm i lambdaconf -D
    
    - The default configuration directory is `/conf`, but you can specify a custom directory with `process.env.CONF_DIR`
 
-3. Add build step to your build process by using `build-config-type` in your npm scripts as desired. Example:
+3. Add build step to your build process in your `package.json` file to build the `Conf` type declaration file. Example:
     
-    ```shell script
-    "scripts": {
-      "build": "lambdaconf"
+    ```json
+    {
+      "scripts": {
+        "prepare": "lambdaconf"
+      }
     }
     ```
 
-    Running this will compile the `Conf` interface from your `default.json` file. This must be
-    run before you can use load or access the configuration. We recommend this is run often to ensure your type
-    declaration is always up-to-date. Two recommended options are to use `scripts.postinstall` or `scripts.prepare` in
-    your package.json file.
+    This must be run any time the configuration has changed. In the above example, the file will be generated after `npm i`. Some IDEs might have some issues with caching the generated `Conf.d.ts file` (which is stored in `node_modules`). If you run into this problem, try restarting Typescript.
     
 # Usage
 
