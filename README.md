@@ -53,9 +53,9 @@ npm i lambdaconf -D
    
    - `default.json` is required, everything else is optional. Recommended practice is that this contains all of your "local development" settings.
    
-   - All configuration files must be a subset of the default configuration. That means for a configuration to exist in any 
-   `.json` file, it must also exist in `default.json`. In Typescript terms, `.json` config files must be of type `Partial<DefaultConfig>`. 
-   In fact, the interface `Config` is simply created from the `default.json` file. One of the main reasons for this limitation is that a type declaration wouldn't otherwise be possible at compile time.
+   - All configuration files must be a subset of the default configuration. Think of them simply as overrides to the default. That means for a configuration to exist in any 
+   `.json` file, it must also exist in `default.json`. In Typescript terms, conf files must be of type `Partial<Conf>`. 
+   In fact, the `Conf` type is simply created from the `default.json` file.
    
    - Arrays should be homogenous (not of mixed types).
    
@@ -64,7 +64,7 @@ npm i lambdaconf -D
    - None of the above are enforced (except the required default), but future versions may
    check for these conditions and throw an error.
    
-   - You can specify a custom directory with `process.env.CONF_DIR`
+   - The default configuration directory is `/conf`, but you can specify a custom directory with `process.env.CONF_DIR`
 
 3. Add build step to your build process by using `build-config-type` in your npm scripts as desired. Example:
     
