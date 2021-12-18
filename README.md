@@ -1,5 +1,10 @@
 # lambdaconf
 
+[![build status](https://github.com/mhweiner/lambdaconf/actions/workflows/workflow.yml/badge.svg)](https://github.com/mhweiner/lambdaconf/actions)
+[![semantic-release](https://img.shields.io/badge/semantic--release-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
+[![SemVer](https://img.shields.io/badge/SemVer-2.0.0-blue)]()
+
 A small, yet powerful typed and structured config library with lambda support for things like AWS Secrets Manager. Written in Typescript.
 
 **Out-of-the-box Typescript support 🔒**
@@ -49,7 +54,7 @@ npm i lambdaconf -D
    - `default.json` is required, everything else is optional. Recommended practice is that this contains all of your "local development" settings.
    
    - All configuration files must be a subset of the default configuration. That means for a configuration to exist in any 
-   `.json` file, it must also exist in `default.json`. In Typescript terms, all possible computed configurations must be of type `Partial<DefaultConfig>`. 
+   `.json` file, it must also exist in `default.json`. In Typescript terms, `.json` config files must be of type `Partial<DefaultConfig>`. 
    In fact, the interface `Config` is simply created from the `default.json` file. One of the main reasons for this limitation is that a type declaration wouldn't otherwise be possible at compile time.
    
    - Arrays should be homogenous (not of mixed types).
@@ -117,21 +122,20 @@ import {Conf} from "lambdaconf";
 
 Configurations are merged in this order, with the later ones overriding the earlier ones:
  
-1. default
-2. environment
-3. deployment
-4. user
-5. overrides
+1. default.json
+2. environment file
+3. deployment file
+4. user file
+5. CLI overrides
 
-These can be provided via CLI or `process.env`:
+Which of these sources to choose depends on the presence of certain `process.env` configuration variables:
 
-| **name**           | **process.env**     | **source**                             |
-| ------------------ | ------------------- | ---------------------------------------|
-| default            | N/A                 | /config/default.json                   |
-| environment        | `NODE_ENV`          | /config/environments/[NODE_ENV].json   |
-| deployment         | `DEPLOYMENT`        | /config/deployments/[DEPLOYMENT].json  |
-| user               | `USER`              | /config/users/[USER].json              |
-| overrides          | `OVERRIDE`          | N/A                                    |
+| **process.env**     | **conf file**                         |
+| ------------------- | --------------------------------------|
+| `NODE_ENV`          | `/conf/environments/[NODE_ENV].json`  |
+| `DEPLOYMENT`        | `/conf/deployments/[DEPLOYMENT].json` |
+| `USER`              | `/conf/users/[USER].json`             |
+| `OVERRIDE`          | N/A                                   |
 
 A few notes:
 
