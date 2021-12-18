@@ -149,23 +149,46 @@ NODE_ENV=development OVERRIDE="{\"a\": {\"b\": \"q\"}}" ts-node src/index.ts
 
 ## Loaders
 
-Loaders are lambda functions that can return any value. They are run once during the type declaration build step, and once while the configuration is loading. They can be
-normal functions or use async/await/Promise.
+Loaders are lambda functions that are called during startup (run-time). A great example of this is fetching API keys from AWS Secrets Manager.
 
-To register a loader, simply pass them to `loadConfig()`:
+Loaders are run once during the type declaration build step (compile-time), and once while the configuration is loading (run-time). They can be normal functions or use async/await/Promise.
+
+### Loader "foo" Example
+
+_loaders/foo.ts_
+```typescript
+export function foo(params: {a: string}) {
+    return Promise.resolve(`foo_${a}`);
+}
+```
+
+_conf/default.json_
+```json
+{
+  "foo": {
+    "[foo]": {
+      "a": "demo"
+    }   
+  }
+}
+```
+_index.ts_
 
 ```typescript
-import {loadConfig} from "lambdaconf";
+import {loadConfig, getConf} from "lambdaconf";
+import {foo} from './loaders/foo';
 
-const loaders = [
-    {foo_loader: async (params: {a: string}) => 'foo_' + params.a}
-];
+const loaders = [{foo}];
 
-loadConfig(loaders).then(() => {
+loadConfig(loaders)
+        .then(() => {
+           
+           console.log(getConf().foo); // "foo_demo"
 
-    //start server, etc.
+           //start server, etc.
 
-}).catch(console.log.bind(console));
+        })
+        .catch(console.log.bind(console));
 ```
 
 Example config using this loader:
@@ -180,13 +203,25 @@ Example config using this loader:
 }
 ```
 
-Any object with a single property matching the pattern `/^\[.*\]$/` (or `[...]`) is assumed to be a loader. If a matching loader is not found, it will throw `LoaderNotFound`. Loaders must implement the `Loader` interface (you can also import it):
+### Formal definition
+
+Loader functions must implement the `Loader` interface:
 
 ```typescript
 interface Loader {
     [key: string]: (params: any) => any
 }
 ```
+
+It's not necessary, but you can import the Loader interface like so:
+
+```typescript
+import {Loader} from 'lambdaconf';
+```
+
+In a conf file, any object with a single property matching the pattern `/^\[.*\]$/` (or `[...]`) is assumed to refer to a loader. If a matching loader is not found, it will throw a `LoaderNotFound` error.
+
+
 
 # Contribution
 
