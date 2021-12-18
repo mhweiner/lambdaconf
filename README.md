@@ -57,12 +57,11 @@ npm i lambdaconf -D
    `.json` file, it must also exist in `default.json`. In Typescript terms, conf files must be of type `Partial<Conf>`. 
    In fact, the `Conf` type is simply created from the `default.json` file.
    
+   - A property's type should not change simply because of a different environment, user, or deployment. This is basically saying the same as above.
+   
+   - `loaders` that are used on the same property in different files should all return the same type (again, same as above).
+
    - Arrays should be homogenous (not of mixed types).
-   
-   - `loaders` that are used the same property in different config files should all return the same type (since again, that type is defined only in default.json)
-   
-   - None of the above are enforced (except the required default), but future versions may
-   check for these conditions and throw an error.
    
    - The default configuration directory is `/conf`, but you can specify a custom directory with `process.env.CONF_DIR`
 
