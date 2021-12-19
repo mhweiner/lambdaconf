@@ -1,6 +1,6 @@
-# lambdaconf
+# jsout
 
-[![build status](https://github.com/mhweiner/lambdaconf/actions/workflows/workflow.yml/badge.svg)](https://github.com/mhweiner/lambdaconf/actions)
+[![build status](https://github.com/mhweiner/jsout/actions/workflows/workflow.yml/badge.svg)](https://github.com/mhweiner/jsout/actions)
 [![semantic-release](https://img.shields.io/badge/semantic--release-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 [![SemVer](https://img.shields.io/badge/SemVer-2.0.0-blue)]()
@@ -15,12 +15,12 @@ A small, yet powerful typed and structured config library with lambda support fo
 - Any custom logic can go here, keeping your config files logic-free
 - Provides an easy sharable and reusable plugin interface for sharing or re-use
 
-**Simple & Easy to Use 😃**
+**Crazy Simple & Easy to Use 😃**
 - All settings are in simple `.json` files. No logic (those can go into loaders)
 - Highly structured. Any override must satisfy `Partial<DefaultConfig>`
 - Enforces a simple and sensible folder structure
 - Limited yet powerful feature set with clean documentation
-- Small, simple, and modular codebase written in Typescript with no dependencies.
+- Small, simple, and modular codebase written in Typescript with only 2 small dependencies.
 
 **Flexible & Powerful 💪**
 - Provides for overrides via CLI without polluting the CLI argument namespace
@@ -30,53 +30,9 @@ A small, yet powerful typed and structured config library with lambda support fo
 # Installation
 
 ```bash
-npm i lambdaconf -D
+npm i jsout -D
 ```
-
-# Setup
-
-1. Install from npm
-
-2. Create a directory called `/conf` in the root of your project and create a `default.json` file. Below is a typical structure:
-    ```shell script
-    root/
-    └── conf/
-        └── deployments
-            └── test.acme.json
-        └── environments
-            └── development.json
-            └── production.json
-        └── users
-            └── john.json
-        └── default.json
-    ```
-   
-   - `default.json` is required, everything else is optional. Recommended practice is that this contains all of your "local development" settings.
-   
-   - All configuration files must be a subset of the default configuration. Think of them simply as overrides to the default. That means for a configuration to exist in any 
-   `.json` file, it must also exist in `default.json`. In Typescript terms, conf files must be of type `Partial<Conf>`. 
-   In fact, the `Conf` type is simply created from the `default.json` file.
-   
-   - A property's type should not change simply because of a different environment, user, or deployment. This is basically saying the same as above.
-   
-   - `loaders` that are used on the same property in different files should all return the same type (again, same as above).
-
-   - Arrays should be homogenous (not of mixed types).
-   
-   - The default configuration directory is `/conf`, but you can specify a custom directory with `process.env.CONF_DIR`
-
-3. Call `lambdaconf` in your `package.json` file to build the `Conf` type declaration file whenever the configuration changes. Example:
-    
-    ```json
-    {
-      "scripts": {
-        "prepare": "lambdaconf"
-      }
-    }
-    ```
-
-    This must be run any time the configuration has changed. Feel free to set this up however you want. In the above example, the file will be generated after `npm i`. Some IDEs might have some issues with caching the generated `Conf.d.ts file` (which is stored in `node_modules`). If you run into this problem, try restarting Typescript.
-    
+ 
 # Usage
 
 _First, make sure you have already done everything in Setup above!_
