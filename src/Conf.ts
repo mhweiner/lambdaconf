@@ -1,1 +1,1 @@
-export interface Conf {} // this will be overridden by dynamically generated Config.d.ts
+export interface Conf {} // this will be overridden by dynamically generated Conf.d.ts
