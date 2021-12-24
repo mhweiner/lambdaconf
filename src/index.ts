@@ -39,4 +39,4 @@ export function getConf(): Conf {
 }
 
 export {Conf};
-export * from './writeDeclarationFile';
+export * from './writeConfFile';

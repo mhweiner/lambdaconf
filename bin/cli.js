@@ -1,5 +1,5 @@
 #!/usr/bin/env node
 
-require('../dist/writeDeclarationFile')
-    .writeDeclarationFile()
+require('../dist/writeConfFile')
+    .writeConfFile()
     .catch(console.log.bind(console));

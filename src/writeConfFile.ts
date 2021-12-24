@@ -2,18 +2,20 @@ import * as fs from 'fs';
 import {getUnresolvedConf} from './getUnresolvedConf';
 import {resolveConf} from './resolveConf';
 
-export async function writeDeclarationFile() {
+const indent = '  ';
+
+export async function writeConfFile() {
 
     const unresolvedDefaultConfig = getUnresolvedConf();
     const defaultConfig = await resolveConf(unresolvedDefaultConfig);
-    const filepath = `${__dirname}/Config.d.ts`;
+    const filepath = `${__dirname}/Conf.d.ts`;
     const ts = `
-      export interface Config {
-          ${getInterfaceProperties(defaultConfig)}
-      }
-    `;
+export interface Config {
+${getInterfaceProperties(defaultConfig)}
+}
+`;
 
-    console.log(`writing Config type declaration file to ${filepath}`);
+    console.log(`writing Conf file to ${filepath}`);
     fs.writeFileSync(filepath, ts);
 
 }
@@ -30,24 +32,24 @@ export function getInterfaceProperties(obj: {[key: string]: any}): string {
 
                     const type = typeof obj[key][0];
 
-                    return `'${key}': ${type === 'undefined' ? 'any' : type}[]`;
+                    return `${indent}'${key}': ${type === 'undefined' ? 'any' : type}[]`;
 
                 }
 
-                return `'${key}': {\n ${getInterfaceProperties(obj[key])} \n}`;
+                return `${indent}'${key}': {\n ${getInterfaceProperties(obj[key])} \n}`;
 
 
             case 'boolean':
 
-                return `'${key}': boolean`;
+                return `${indent}'${key}': boolean`;
 
             case 'number':
 
-                return `'${key}': number`;
+                return `${indent}'${key}': number`;
 
             default:
 
-                return `'${key}': string`;
+                return `${indent}'${key}': string`;
 
         }
 
