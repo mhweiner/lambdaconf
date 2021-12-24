@@ -2,21 +2,21 @@ import * as fs from 'fs';
 import {getUnresolvedConf} from './getUnresolvedConf';
 import {resolveConf} from './resolveConf';
 
-const indent = (depth: number) => Array(depth).fill(' ').join('');
+const indent = (depth: number) => Array(depth * 2).fill(' ').join('');
 
 export async function writeConfFile() {
 
     const unresolvedDefaultConfig = getUnresolvedConf();
     const defaultConfig = await resolveConf(unresolvedDefaultConfig);
     const filepath = `${__dirname}/Conf.d.ts`;
-    const ts = `export interface Conf {\n${getInterfaceProperties(defaultConfig)}\n}`;
+    const ts = `export interface Conf {\n${props(defaultConfig)}\n}`;
 
     console.log(`lambdaconf: writing ${filepath}`);
     fs.writeFileSync(filepath, ts);
 
 }
 
-export function getInterfaceProperties(obj: {[key: string]: any}, depth: number = 1): string {
+export function props(obj: {[key: string]: any}, depth: number = 1): string {
 
     return Object.keys(obj).map((key) => {
 
@@ -30,9 +30,11 @@ export function getInterfaceProperties(obj: {[key: string]: any}, depth: number 
 
                     return `${indent(depth)}'${key}': ${type === 'undefined' ? 'any' : type}[]`;
 
-                }
+                } else {
 
-                return `${indent(depth)}'${key}': {\n${getInterfaceProperties(obj[key], depth + 1)}\n}`;
+                    return `${indent(depth)}'${key}': {\n${props(obj[key], depth + 1)}\n${indent(depth)}`;
+
+                }
 
 
             case 'boolean':
