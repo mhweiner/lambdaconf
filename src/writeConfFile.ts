@@ -32,7 +32,7 @@ export function props(obj: {[key: string]: any}, depth: number = 1): string {
 
                 } else {
 
-                    return `${indent(depth)}'${key}': {\n${props(obj[key], depth + 1)}\n${indent(depth)}`;
+                    return `${indent(depth)}'${key}': {\n${props(obj[key], depth + 1)}\n${indent(depth)}}`;
 
                 }
 
