@@ -176,7 +176,7 @@ When using with npm scripts, it might be useful to use command substitution like
 
 ```json
 {
-   "start": "OVERRIDE=$(echo '{\"postgres\": \"MY_DATABASE_URL\"}') ts-node src/index.ts"
+   "start": "OVERRIDE=$(echo '{\"postgres\": \"localhost\"}') ts-node src/index.ts"
 }
 ```
 
