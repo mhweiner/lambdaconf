@@ -249,7 +249,7 @@ interface Loader {
 It's not necessary, but you can import the Loader interface like so:
 
 ```typescript
-import {Loader} from 'lambdaconf';
+import type {Loader} from 'lambdaconf';
 ```
 
 In a conf file, any object with a single property matching the pattern `/^\[.*\]$/` (or `[...]`) is assumed to refer to a loader. If a matching loader is not found, it will throw a `LoaderNotFound` error.
