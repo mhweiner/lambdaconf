@@ -16,7 +16,7 @@ A small, yet powerful typed and structured config library with lambda support fo
 - Provides an easy sharable and reusable plugin interface for sharing or re-use
 
 **Simple & Easy to Use 😃**
-- All settings are in simple `.json` files. No logic (those can go into loaders)
+- All settings are in simple `.json` files. No logic (those can go into [loaders](#loaders))
 - Highly structured. Any override must satisfy `Partial<DefaultConfig>`
 - Enforces a simple and sensible folder structure
 - Limited yet powerful feature set with clean documentation
@@ -105,7 +105,7 @@ Yup, it's just simple JSON. You can also use [loaders](#loaders).
 
 ## Loading the Configuration
 
-You must first *load* the config, which resolves any `loaders` and performs the merge.
+You must first *load* the config, which resolves any [loaders](#loaders) and performs the merge.
 
 ```typescript
 import {loadConf, getConf} from "lambdaconf";
@@ -161,7 +161,7 @@ A few notes:
 
 - `OVERRIDE` must be valid JSON. [Learn more](#using-cli-overrides)
 - `USER` is usually provided by default by UNIX environments (try `console.log(process.env.USER)`)
-- `loaders` parameters are simply replaced, not merged. A `loader` instance is treated as a primitive.
+- [Loaders](#loaders) parameters are simply replaced, not merged. A `loader` instance is treated as a primitive.
 - Arrays are simply replaced, not merged.
 
 ## Using CLI overrides
