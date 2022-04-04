@@ -27,6 +27,20 @@ A small, yet powerful typed and structured config library with lambda support fo
 - Differentiates between concepts such as `environment`, `deployment`, and `user` and provides an out-of-the-box
   solution with sensible merge strategy
 
+# Table of Contents
+
+- [Installation & Setup](#installation--setup)
+- [Usage](#usage)
+  - [Example Configuration File](#example-configuration-file)
+  - [Configuration Rules](#configuration-rules)
+  - [Loading the Configuration](#loading-the-configuration)
+  - [Getting the Config Object](#getting-the-config-object)
+  - [Configuration, Overrides, and Merge Strategy](#configuration-overrides-and-merge-strategy)
+  - [Using CLI overrides](#using-cli-overrides)
+  - [Loaders](#loaders)
+- [Known Issues](#known-issues)
+- [Contribution](#contribution)
+
 # Installation & Setup
 
 1. Install from `npm`
