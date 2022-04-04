@@ -27,15 +27,13 @@ A small, yet powerful typed and structured config library with lambda support fo
 - Differentiates between concepts such as `environment`, `deployment`, and `user` and provides an out-of-the-box
   solution with sensible merge strategy
 
-# Installation
+# Installation & Setup
 
-```bash
-npm i lambdaconf -D
-```
+1. Install from `npm`
 
-# Setup
-
-1. Install from npm
+    ```bash
+    npm i lambdaconf -D
+    ```
 
 2. Create a directory called `/conf` in the root of your project and create a `default.json` file. Below is a typical structure:
     ```shell script
@@ -51,21 +49,10 @@ npm i lambdaconf -D
         └── default.json
     ```
    
-   - `default.json` is required, everything else is optional. Recommended practice is that this contains all of your "local development" settings.
-   
-   - All configuration files must be a subset of the default configuration. Think of them simply as overrides to the default. That means for a configuration to exist in any 
-   `.json` file, it must also exist in `default.json`. In Typescript terms, conf files must be of type `Partial<Conf>`. 
-   In fact, the `Conf` type is simply created from the `default.json` file.
-   
-   - A property's type should not change simply because of a different environment, user, or deployment. This is basically saying the same as above.
-   
-   - `loaders` that are used on the same property in different files should all return the same type (again, same as above).
+   `default.json` is required, everything else is optional. [See full rules](#configuration-rules).
 
-   - Arrays should be homogenous (not of mixed types).
-   
-   - The default configuration directory is `/conf`, but you can specify a custom directory with `process.env.CONF_DIR`
 
-3. Call `lambdaconf` in your `package.json` file to build the `Conf` type declaration file whenever the configuration changes. Example:
+3. Call `lambdaconf` to build the type declaration file. It is recommended to add thef ollowing to your `package.json` file:
     
     ```json
     {
@@ -75,11 +62,32 @@ npm i lambdaconf -D
     }
     ```
 
-    This must be run any time the configuration has changed. Feel free to set this up however you want. In the above example, the file will be generated after `npm i`. Some IDEs might have some issues with caching the generated `Conf.d.ts file` (which is stored in `node_modules`). If you run into this problem, try restarting Typescript.
+    `lambdaconf` must be run any time the configuration has changed. Feel free to set this up however you want. There is a [known issue](#known-issues) with certain IDE's caching this file.
     
 # Usage
 
-_First, make sure you have already done everything in Setup above!_
+## Example Configuration File
+
+_conf/default.json_
+```json
+{
+   "foo": "bar"
+}
+```
+
+Yup, it's just simple JSON. You can also use [loaders](#loaders).
+
+## Configuration Rules
+
+- `default.json` is required, everything else is optional. Recommended practice is that this contains all of your "local development" settings.
+
+- All configuration files must be a subset of `default.json`. Think of them simply as overrides to the default. In Typescript terms, conf files must be of type `Partial<Conf>`.
+
+- A property's type should not change simply because of a different environment, user, or deployment. This is basically saying the same as above.
+
+- [Loaders](#loaders) that are used on the same property in different files should all return the same type (again, same as above).
+
+- Arrays should be homogenous (not of mixed types).
 
 ## Loading the Configuration
 
@@ -137,15 +145,36 @@ Which of these sources to choose depends on the presence of certain `process.env
 
 A few notes:
 
-- `OVERRIDE` must be a valid JSON string with escaped quotes. Example:
+- `OVERRIDE` must be valid JSON. [Learn more](#using-cli-overrides)
+- `USER` is usually provided by default by UNIX environments (try `console.log(process.env.USER)`)
+- `loaders` parameters are simply replaced, not merged. A `loader` instance is treated as a primitive.
+- Arrays are simply replaced, not merged.
+
+## Using CLI overrides
+
+You can use the `OVERRIDE` environment variable to override properties via CLI. `OVERRIDE` must be valid JSON. Example:
 
 ```shell script
-NODE_ENV=development OVERRIDE="{\"a\": {\"b\": \"q\"}}" ts-node src/index.ts
+OVERRIDE="{\"a\": {\"b\": \"q\"}}" ts-node src/index.ts
 ```
 
-- `USER` is usually provided by default by UNIX environments (try `console.log(process.env.USER)`)
-- `loaders` parameters are not merged. A `loader` instance is treated as a primitive. 
-- Arrays are not merged
+When using with npm scripts, it might be useful to use command substitution like so:
+
+```json
+{
+   "start": "OVERRIDE=$(echo '{\"postgres\": \"MY_DATABASE_URL\"}') ts-node src/index.ts"
+}
+```
+
+This is especially useful if you want to make use of environment variables (notice the extra single quotes):
+
+```json
+{
+   "start": "OVERRIDE=$(echo '{\"postgres\": \"'$DATABASE_URL'\"}') ts-node src/index.ts"
+}
+```
+
+_⚠️Use caution! CLI overrides are not checked by Typescript's static type checking, and there is currently no runtime type checking feature. Feel free to submit an issue or PR if you want this._
 
 ## Loaders
 
@@ -211,7 +240,9 @@ import {Loader} from 'lambdaconf';
 
 In a conf file, any object with a single property matching the pattern `/^\[.*\]$/` (or `[...]`) is assumed to refer to a loader. If a matching loader is not found, it will throw a `LoaderNotFound` error.
 
+# Known Issues
 
+1. Some IDEs (particularly IntelliJ/Webstorm) have some issues with caching of the generated `Conf.d.ts file` (which is stored in `node_modules/lambdaconf`). If you run into this problem, try [restarting the Typescript service](https://www.jetbrains.com/help/webstorm/typescript-compiler-tool-window.html#ws_ts_tool_window_toolbar).
 
 # Contribution
 
