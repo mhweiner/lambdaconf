@@ -66,7 +66,7 @@ A small, yet powerful typed and structured config library with lambda support fo
    `default.json` is required, everything else is optional. [See full rules](#configuration-rules).
 
 
-3. Call `lambdaconf` to build the type declaration file. It is recommended to add thef ollowing to your `package.json` file:
+3. Call `lambdaconf` to build the type declaration file. It is recommended to add the following to your `package.json` file:
     
     ```json
     {
