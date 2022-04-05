@@ -4,13 +4,12 @@ import {getUnresolvedConf} from './getUnresolvedConf';
 import {resolveConf} from './resolveConf';
 import {Conf} from './Conf';
 
-export interface Loader {
-    [key: string]: (params: object) => any
-}
+export type Loader<I, O> = (params: I) => O;
+export type LoaderDict = {[name: string]: Loader<any, any>};
 
 let resolvedConf: {[key: string]: any};
 
-export async function loadConf(loaders?: Loader[]): Promise<Conf> {
+export async function loadConf(loaders: LoaderDict = {}): Promise<Conf> {
 
     const env = getEnvArguments();
     const unresolvedConf = getUnresolvedConf(

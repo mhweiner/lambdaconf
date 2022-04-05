@@ -1,3 +1,5 @@
+import {LoaderDict} from './index';
+
 export class InvalidConf extends Error {
 
     validationErrors: string[];
@@ -31,9 +33,9 @@ export class ConfNotLoaded extends Error {
 
 export class LoaderNotFound extends Error {
 
-    constructor(loaderName: string, availableLoaders: string[]) {
+    constructor(loaderName: string, availableLoaders: LoaderDict) {
 
-        super(`LOADER_NOT_FOUND: "${loaderName}". Available loaders: ${availableLoaders.join(', ')}`);
+        super(`LOADER_NOT_FOUND: "${loaderName}". Available loaders: ${Object.keys(availableLoaders).join(', ')}`);
         Error.captureStackTrace(this, LoaderNotFound);
 
     }

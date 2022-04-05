@@ -20,10 +20,14 @@
     "url": "https://github.com/mhweiner/lambdaconf.git"
   },
   "scripts": {
-    "test": "npm run build && c8 hoare 'src/**/*.spec.ts' && c8 report -r text -r html",
+    "prepare": "npm run build",
+    "test": "c8 hoare 'src/**/*.spec.ts' && c8 report -r text -r html",
     "lint": "eslint ./ --ext .js,.ts",
     "build": "rm -rf ./dist && tsc",
     "semantic-release": "semantic-release"
+  },
+  "release": {
+    "analyzeCommits": "semantic-release-conventional-commits"
   },
   "homepage": "https://github.com/mhweiner/lambdaconf",
   "keywords": [
@@ -34,7 +38,11 @@
     "aws secrets manager",
     "aws parameter store",
     "configuration",
-    "loader"
+    "loader",
+    "env files",
+    "env",
+    "node-config",
+    "ts-node-config"
   ],
   "devDependencies": {
     "@types/node": "^17.0.0",
@@ -46,6 +54,7 @@
     "eslint": "^8.4.1",
     "hoare": "^3.0.0",
     "semantic-release": "^18.0.1",
+    "semantic-release-conventional-commits": "^3.0.0",
     "sinon": "^12.0.1",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.4"

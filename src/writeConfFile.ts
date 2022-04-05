@@ -7,7 +7,7 @@ const indent = (depth: number) => Array(depth * 2).fill(' ').join('');
 export async function writeConfFile() {
 
     const unresolvedDefaultConfig = getUnresolvedConf();
-    const defaultConfig = await resolveConf(unresolvedDefaultConfig);
+    const defaultConfig = await resolveConf(unresolvedDefaultConfig, {});
     const filepath = `${__dirname}/Conf.d.ts`;
     const ts = `export interface Conf {\n${props(defaultConfig)}\n}`;
 

@@ -1,10 +1,11 @@
 import {loadConfFile} from './loadConfFile';
 import {getConfDir} from './getConfDir';
-import {isLoader} from './resolveConf';
 import {InvalidConf} from './errors';
+import {isLoader} from './isLoader';
 
 /**
- * Returns unresolved config. Unresolved means loaders haven't been resolved.
+ * Returns unresolved config (configuration is sourced and merged, but loaders and environment variables remain
+ * unresolved).
  * @param environment
  * @param deployment
  * @param user

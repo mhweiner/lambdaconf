@@ -26,6 +26,8 @@ A small, yet powerful typed and structured config library with lambda support fo
 - Provides for overrides via CLI without polluting the CLI argument namespace
 - Differentiates between concepts such as `environment`, `deployment`, and `user` and provides an out-of-the-box
   solution with sensible merge strategy
+- Fast. Runtime processing is done during app initialization only.
+
 
 # Table of Contents
 
@@ -85,11 +87,17 @@ A small, yet powerful typed and structured config library with lambda support fo
 _conf/default.json_
 ```json
 {
-   "foo": "bar"
+  "foo": "bar",
+  "fruits": ["apples", "oranges"],
+  "thingEnabled": false,
+  "maxFruits": 123,
+  "wow": {
+    "foo": "bar"
+  }
 }
 ```
 
-Yup, it's just simple JSON. You can also use [loaders](#loaders).
+Yup, it's just JSON, and it will all be typed. You can also use [loaders](#loaders) or [environment variables](#environment-variables-in-config-files).
 
 ## Configuration Rules
 
@@ -188,7 +196,17 @@ This is especially useful if you want to make use of environment variables (noti
 }
 ```
 
-_⚠️Use caution! CLI overrides are not checked by Typescript's static type checking, and there is currently no runtime type checking feature. Feel free to submit an issue or PR if you want this._
+⚠️ _Use caution! CLI overrides are not checked by Typescript's static type checking, and there is currently no runtime type checking feature. Feel free to submit an issue or PR if you want this._
+
+## Environment variables in config files
+
+You can use environment variables as values by wrapping it in `${...}`. For example, to use environment variable `FOO`, use `${FOO}`. This will translate to `process.env.FOO`. These will always be typed as strings. Example config file:
+
+```json
+{
+  "foo": "${FOO}"
+}
+```
 
 ## Loaders
 

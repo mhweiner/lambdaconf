@@ -1,6 +1,6 @@
 import {test} from 'hoare';
 import {stub} from 'sinon';
-import * as getUnresolvedConfModule from './getUnresolvedConf';
+import * as sut from './getUnresolvedConf';
 import {mock} from 'cjs-mock';
 
 test('empty case', (assert) => {
@@ -10,7 +10,7 @@ test('empty case', (assert) => {
         loadConfFile: stub().returns({}),
         getConfDir: stub().returns('/conf'),
     };
-    const m: typeof getUnresolvedConfModule = mock('./getUnresolvedConf', {
+    const m: typeof sut = mock('./getUnresolvedConf', {
         './loadConfFile': {loadConfFile: stubs.loadConfFile},
         './getConfDir': {getConfDir: stubs.getConfDir},
     });
@@ -40,7 +40,7 @@ test('default conf only, {foo: bar}', (assert) => {
         loadConfFile: stub().returns({foo: 'bar'}),
         getConfDir: stub().returns('/conf'),
     };
-    const m: typeof getUnresolvedConfModule = mock('./getUnresolvedConf', {
+    const m: typeof sut = mock('./getUnresolvedConf', {
         './loadConfFile': {loadConfFile: stubs.loadConfFile},
         './getConfDir': {getConfDir: stubs.getConfDir},
     });
@@ -123,7 +123,7 @@ test('multiple confs, edge cases, etc.', (assert) => {
     const overrides = {
         q: true,
     };
-    const m: typeof getUnresolvedConfModule = mock('./getUnresolvedConf', {
+    const m: typeof sut = mock('./getUnresolvedConf', {
         './loadConfFile': {loadConfFile: stubs.loadConfFile},
         './getConfDir': {getConfDir: stubs.getConfDir},
     });

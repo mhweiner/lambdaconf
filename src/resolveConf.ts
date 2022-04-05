@@ -1,29 +1,34 @@
-import {resolveLoader} from './resolveLoader';
-import {Loader} from '.';
+import {isLoader} from './isLoader';
+import type {LoaderDict} from '.';
+import {LoaderNotFound} from './errors';
+import {isEnvironmentVariable} from './isEnvironmentVariable';
 
 export async function resolveConf(
     obj: {[key: string]: any},
-    loaders?: Loader[],
-    path: string[] = [],
+    loaders: LoaderDict,
 ) {
 
-    const resolvedConfig: {[key: string]: any} = obj; // it starts out as unresolved
+    const resolvedConfig = {...obj};
 
     await Promise.all(Object.keys(obj).map(async (key: string) => {
 
-        const value = obj[key];
+        if (typeof obj[key] === 'object') {
 
-        if (typeof value === 'object') {
+            if (isLoader(obj[key])) {
 
-            if (isLoader(value)) {
-
-                resolvedConfig[key] = await resolveLoader(value, loaders || [{}]);
+                resolvedConfig[key] = await resolveLoader(obj[key], loaders);
 
             } else {
 
-                return resolveConf(value, loaders, [...path, key]);
+                return resolveConf(obj[key], loaders);
 
             }
+
+        } else if (typeof obj[key] === 'string' && isEnvironmentVariable(obj[key])) {
+
+            const name = obj[key].slice(2, obj[key].length - 1);
+
+            resolvedConfig[key] = process.env[name];
 
         }
 
@@ -33,10 +38,16 @@ export async function resolveConf(
 
 }
 
-export function isLoader(prop: {[key: string]: object}) {
+async function resolveLoader(obj: {[key: string]: any}, loaders: LoaderDict): Promise<any> {
 
-    const keys = Object.keys(prop);
+    const [key] = Object.keys(obj); // [...]
+    const name = key.slice(1, key.length - 1);
+    const params = obj[key];
 
-    return keys.length === 1 && /^\[.*\]$/.test(keys[0]);
+    if (!loaders[name]) throw new LoaderNotFound(name, loaders);
+
+    const loader = loaders[name];
+
+    return loader(params);
 
 }
