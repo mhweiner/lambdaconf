@@ -51,7 +51,8 @@ A small, yet powerful typed and structured config library with lambda support fo
     npm i lambdaconf -D
     ```
 
-2. Create a directory called `/conf` in the root of your project and create a `default.json` file. Below is a typical structure:
+2. Create a directory called `/conf` in the root of your project. Inside of that, create a `default.json` along with the following folders: `deployments`, `environments`, and `users`. `default.json` is required, everything else is optional. See [full configuration rules](#configuration-rules) and [merge strategy](#configuration-overrides-and-merge-strategy). Here is an example folder structure:
+
     ```shell script
     root/
     └── conf/
@@ -64,9 +65,6 @@ A small, yet powerful typed and structured config library with lambda support fo
             └── john.json
         └── default.json
     ```
-   
-   `default.json` is required, everything else is optional. [See full rules](#configuration-rules).
-
 
 3. Call `lambdaconf` to build the type declaration file. One option is to add the following to your `package.json` file:
     
