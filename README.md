@@ -68,7 +68,7 @@ A small, yet powerful typed and structured config library with lambda support fo
    `default.json` is required, everything else is optional. [See full rules](#configuration-rules).
 
 
-3. Call `lambdaconf` to build the type declaration file. It is recommended to add the following to your `package.json` file:
+3. Call `lambdaconf` to build the type declaration file. One option is to add the following to your `package.json` file:
     
     ```json
     {
@@ -78,7 +78,7 @@ A small, yet powerful typed and structured config library with lambda support fo
     }
     ```
 
-    `lambdaconf` must be run any time the configuration has changed. Feel free to set this up however you want. There is a [known issue](#known-issues) with certain IDE's caching this file.
+    `lambdaconf` must be run any time the configuration has changed. Feel free to set this up however you want. Please be aware, there is a [known issue](#known-issues) with certain IDE's caching this file, and a simple workaround.
     
 # Usage
 
@@ -172,7 +172,7 @@ A few notes:
 - [Loaders](#loaders) parameters are simply replaced, not merged. A `loader` instance is treated as a primitive.
 - Arrays are simply replaced, not merged.
 
-## Using CLI overrides
+## Using CLI Overrides
 
 You can use the `OVERRIDE` environment variable to override properties via CLI. `OVERRIDE` must be valid JSON. Example:
 
@@ -198,7 +198,7 @@ This is especially useful if you want to make use of environment variables (noti
 
 ⚠️ _Use caution! CLI overrides are not checked by Typescript's static type checking, and there is currently no runtime type checking feature. Feel free to submit an issue or PR if you want this._
 
-## Environment variables in config files
+## Environment Variables in Config Files
 
 You can use environment variables as values by wrapping it in `${...}`. For example, to use environment variable `FOO`, use `${FOO}`. This will translate to `process.env.FOO`. These will always be typed as strings. Example config file:
 
