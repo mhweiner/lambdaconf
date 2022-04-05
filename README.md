@@ -214,14 +214,7 @@ Loaders are lambda functions that are called during startup (run-time). A great 
 
 Loaders are run once during the type declaration build step (compile-time), and once while the configuration is loading (run-time). They can be normal functions or use async/await/Promise.
 
-### Loader "foo" Example
-
-_loaders/foo.ts_
-```typescript
-export function foo(params: {a: string}) {
-    return Promise.resolve(`foo_${a}`);
-}
-```
+### Example
 
 _conf/default.json_
 ```json
@@ -230,6 +223,9 @@ _conf/default.json_
     "[foo]": {
       "a": "demo"
     }   
+  },
+  "bar": {
+    "[add10]": 42
   }
 }
 ```
@@ -237,40 +233,30 @@ _index.ts_
 
 ```typescript
 import {loadConfig, getConf} from "lambdaconf";
-import {foo} from './loaders/foo';
 
-const loaders = [{foo}];
+const loaders = {
+    foo: (params: {a: string}) => Promise.resolve(`foo_${a}`),
+    add10: (val: number) => number + 10,
+};
 
 loadConfig(loaders)
-        .then(() => {
-           
-           console.log(getConf().foo); // "foo_demo"
-
-           //start server, etc.
-
-        })
-        .catch(console.log.bind(console));
+    .then(() => {
+        console.log(getConf().foo); // "foo_demo"
+        console.log(getConf().bar); // 52
+        //start server, etc.
+    })
+    .catch(console.log.bind(console));
 ```
 
-To register a loader, simply pass it in an array to `loadConfig()`.
+### Usage
 
-### Formal definition
-
-Loader functions must implement the `Loader` interface:
-
-```typescript
-interface Loader {
-    [key: string]: (params: any) => any
-}
-```
-
-It's not necessary, but you can import the Loader interface like so:
+Loader functions must extend `(params: any) => any`. If helpful, you can import the `Loader` type like so:
 
 ```typescript
 import type {Loader} from 'lambdaconf';
 ```
 
-In a conf file, any object with a single property matching the pattern `/^\[.*\]$/` (or `[...]`) is assumed to refer to a loader. If a matching loader is not found, it will throw a `LoaderNotFound` error.
+In a conf file, any object with a single property matching the pattern `/^\[.*\]$/` (`[...]`) is assumed to call a loader. If a matching loader is not found, it will throw a `LoaderNotFound` error.
 
 # Known Issues
 
