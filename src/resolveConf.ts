@@ -22,7 +22,7 @@ export async function resolveConf(
 
             } else {
 
-                return resolveConf(value, loaders);
+                resolvedConfig[key] = await resolveConf(value, loaders);
 
             }
 

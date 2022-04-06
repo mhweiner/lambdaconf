@@ -19,36 +19,63 @@ test('should resolve environment variable', async (assert) => {
     // given
     process.env.FOO = 'bar123!';
 
-    const unresolvedConfig = {foo: '${FOO}'};
+    const unresolvedConfig = {
+        foo: '${FOO}',
+        obj: {
+            a: '${FOO}',
+            b: {
+                c: '${FOO}',
+            },
+        },
+    };
+    const expected = {
+        foo: 'bar123!',
+        obj: {
+            a: 'bar123!',
+            b: {
+                c: 'bar123!',
+            },
+        },
+    };
 
     // when
     const output = await resolveConf(unresolvedConfig, {});
 
     // then
-    assert.equal(output, {foo: 'bar123!'});
+    assert.equal(output, expected);
 
 });
 
 test('config with a loader should resolve', async (assert) => {
 
     // given
+    const loaders = {
+        foo: (arg: {a: string}): string => `foo_${arg.a}`,
+        bar: (arg: string): string => `bar_${arg}`,
+    };
     const unresolvedConfig = {
-        foo: {
+        a: {
             '[foo]': {
                 a: '123',
             },
         },
+        b: {
+            a: {
+                '[bar]': '321',
+            },
+        },
     };
-    const loaders = {foo: (arg: {
-        a: string
-    }): string => `foo_${arg.a}`};
+    const expected = {
+        a: 'foo_123',
+        b: {
+            a: 'bar_321',
+        },
+    };
 
     // when
     const output = await resolveConf(unresolvedConfig, loaders);
 
     // then
-    assert.equal(output, {
-        foo: 'foo_123',
-    });
+    assert.equal(output, expected);
 
 });
