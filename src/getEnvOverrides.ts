@@ -1,6 +1,7 @@
 import {InvalidConf} from './errors';
+import {AnyObject} from './index';
 
-export function getEnvOverrides(): {[key: string]: object} {
+export function getEnvOverrides(): AnyObject {
 
     const overrides = process.env.OVERRIDE;
 
@@ -8,7 +9,7 @@ export function getEnvOverrides(): {[key: string]: object} {
 
         try {
 
-            return JSON.parse(overrides);
+            return JSON.parse(overrides) as AnyObject;
 
         } catch (e) {
 

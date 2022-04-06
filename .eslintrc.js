@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   parser: '@typescript-eslint/parser',
   extends: ['eslint:recommended', 'plugin:@typescript-eslint/eslint-recommended'],
@@ -141,5 +140,6 @@ module.exports = {
     '@typescript-eslint/no-useless-constructor': 'error',
     '@typescript-eslint/no-var-requires': 'error',
     '@typescript-eslint/semi': ['error', 'always'],
+    "@typescript-eslint/explicit-function-return-type": 'error'
   }
 };

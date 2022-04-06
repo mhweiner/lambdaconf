@@ -1,13 +1,19 @@
-import * as fs from 'fs';
+import {readFileSync} from 'fs';
 import {InvalidConf} from './errors';
+import {getConfDir} from './getConfDir';
+import {AnyObject} from './index';
 
-export function loadConfFile(filename: string) {
+/**
+ * Loads a configuration file. Do not pass the config directory path, this is assumed.
+ * @param path
+ */
+export function loadConfFile(path: string): AnyObject {
 
     let fileContent;
 
     try {
 
-        fileContent = fs.readFileSync(filename, 'utf-8');
+        fileContent = readFileSync(`${getConfDir()}${path}`, 'utf-8');
 
     } catch (e) {
 
@@ -17,11 +23,11 @@ export function loadConfFile(filename: string) {
 
     try {
 
-        return JSON.parse(fileContent);
+        return JSON.parse(fileContent) as AnyObject;
 
     } catch (e) {
 
-        throw new InvalidConf([`${filename} is not valid JSON`]);
+        throw new InvalidConf([`${path} is not valid JSON`]);
 
     }
 

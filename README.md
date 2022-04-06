@@ -10,13 +10,8 @@ A small, yet powerful typed and structured config library with lambda support fo
 **Out-of-the-box Typescript support 🔒**
 - Turn your runtime errors into safer compile-time errors! Automatically generated Typescript type definition for configuration object
 
-**Lambda Support 🤖**
-- Works with AWS Secrets Manager, AWS Parameter Store, or custom dynamic lambda functions
-- Any custom logic can go here, keeping your config files logic-free
-- Provides an easy sharable and reusable plugin interface for sharing or re-use
-
 **Simple & Easy to Use 😃**
-- All settings are in simple `.json` files. No logic (those can go into [loaders](#loaders))
+- All settings are in simple, easily readable & logic free `.json` files.
 - Highly structured. Any override must satisfy `Partial<DefaultConfig>`
 - Enforces a simple and sensible folder structure
 - Limited yet powerful feature set with clean documentation
@@ -27,6 +22,12 @@ A small, yet powerful typed and structured config library with lambda support fo
 - Differentiates between concepts such as `environment`, `deployment`, and `user` and provides an out-of-the-box
   solution with sensible merge strategy
 - Fast. Runtime processing is done during app initialization only.
+- Put [environment variables](#environment-variables-in-config-files) directly into .json files
+
+**Lambda Support 🤖**
+- Works with AWS Secrets Manager, AWS Parameter Store, or custom dynamic lambda functions
+- Any custom logic can go here, keeping your config files logic-free
+- Provides an easy sharable and reusable plugin interface for sharing or re-use
 
 
 # Table of Contents

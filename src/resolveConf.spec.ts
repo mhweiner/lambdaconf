@@ -41,7 +41,7 @@ test('config with a loader should resolve', async (assert) => {
     };
     const loaders = {foo: (arg: {
         a: string
-    }) => `foo_${arg.a}`};
+    }): string => `foo_${arg.a}`};
 
     // when
     const output = await resolveConf(unresolvedConfig, loaders);

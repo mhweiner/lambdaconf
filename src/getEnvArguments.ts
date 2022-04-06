@@ -1,6 +1,12 @@
 import {getEnvOverrides} from './getEnvOverrides';
+import {AnyObject} from './index';
 
-export function getEnvArguments() {
+export function getEnvArguments(): {
+    environment: string
+    deployment: string
+    user: string
+    overrides: AnyObject
+} {
 
     return {
         environment: process.env.NODE_ENV || '',
