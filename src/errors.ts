@@ -12,7 +12,7 @@ export class InvalidConf extends Error {
 
     }
 
-    toString() {
+    toString(): string {
 
         return `${this.name}: ${this.validationErrors.join(', ')}`;
 
@@ -24,7 +24,7 @@ export class ConfNotLoaded extends Error {
 
     constructor() {
 
-        super(`CONF_NOT_LOADED`);
+        super('CONF_NOT_LOADED');
         Error.captureStackTrace(this, ConfNotLoaded);
 
     }

@@ -1,13 +1,18 @@
 import * as fs from 'fs';
-import {getUnresolvedConf} from './getUnresolvedConf';
 import {resolveConf} from './resolveConf';
+import {getEnvArguments} from './getEnvArguments';
+import {loadConfFromFiles} from './loadConfFromFiles';
+import {mergeConfs} from './mergeConfs';
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const indent = (depth: number) => Array(depth * 2).fill(' ').join('');
 
-export async function writeConfFile() {
+export async function writeConfFile(): Promise<void> {
 
-    const unresolvedDefaultConfig = getUnresolvedConf();
-    const defaultConfig = await resolveConf(unresolvedDefaultConfig, {});
+    const env = getEnvArguments();
+    const confSources = loadConfFromFiles(env);
+    const mergedConf = mergeConfs(confSources);
+    const defaultConfig = await resolveConf(mergedConf, {});
     const filepath = `${__dirname}/Conf.d.ts`;
     const ts = `export interface Conf {\n${props(defaultConfig)}\n}`;
 
