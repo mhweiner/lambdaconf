@@ -18,7 +18,7 @@ export async function writeConfFile(): Promise<void> {
     const ts = `
 import {Conf} from "lambdaconf";
 declare module "lambdaconf" {
-    export interface Conf = {
+    export interface Conf {
 ${props(defaultConfig)}
     }
 }
