@@ -29,7 +29,7 @@ ${props(defaultConfig)}
 
 }
 
-export function props(obj: {[key: string]: any}, depth: number = 3): string {
+export function props(obj: {[key: string]: any}, depth: number = 2): string {
 
     return Object.keys(obj).map((key) => {
 
