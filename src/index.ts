@@ -4,6 +4,8 @@ import {resolveConf} from './resolveConf';
 import {loadConfFromFiles} from './loadConfFromFiles';
 import {mergeConfs} from './mergeConfs';
 
+export interface Conf {}
+
 export type Loader<I, O> = (params: I) => O;
 export type LoaderDict = {[name: string]: Loader<any, any>};
 
