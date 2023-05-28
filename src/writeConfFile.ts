@@ -15,7 +15,13 @@ export async function writeConfFile(): Promise<void> {
     const mergedConf = mergeConfs(confSources);
     const defaultConfig = await resolveConf(mergedConf, {});
     const filepath = `${getConfDir()}/Conf.d.ts`;
-    const ts = `export interface Conf {\n${props(defaultConfig)}\n}`;
+    const ts = `
+        declare module "lambdaconf" {
+            export type Conf = {
+                ${props(defaultConfig)}
+            }
+        }
+    `;
 
     console.log(`lambdaconf: writing ${filepath}`);
     fs.writeFileSync(filepath, ts);
