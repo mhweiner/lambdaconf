@@ -1,7 +1,6 @@
 import {ConfNotLoaded} from './errors';
 import {getEnvArguments} from './getEnvArguments';
 import {resolveConf} from './resolveConf';
-import {Conf} from './Conf';
 import {loadConfFromFiles} from './loadConfFromFiles';
 import {mergeConfs} from './mergeConfs';
 
@@ -36,5 +35,4 @@ export function getConf(): Conf {
 
 }
 
-export {Conf};
 export * from './writeConfFile';
