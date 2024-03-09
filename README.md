@@ -81,7 +81,7 @@ See [full configuration rules](#configuration-rules), [merge strategy](#configur
 
 ### 4. Typescript Configuration (tsconfig.json)
 
-Make sure the `conf/Conf.d.ts` file will be picked up by your Typescript parser. One way to do this is by including it in your `includes` directive like so:
+Make sure the generated `conf/Conf.d.ts` file will be picked up by your Typescript parser. One way to do this is by including it in your `includes` directive like so:
 
 ```json
   "include":[
