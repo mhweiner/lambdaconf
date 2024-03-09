@@ -145,7 +145,11 @@ You can also use [loaders](#loaders) or [environment variables](#environment-var
 
 ### Loading the Configuration
 
-You must first *load* the config, which resolves any [loaders](#loaders) and performs the merge.
+You must first *load* the config, which resolves any [loaders](#loaders) and performs the merge. 
+
+We <b>strongly</b> recommend you call `loadConf()` before your app starts, ie, during initialization, before `app.listen(), etc.`.This will cache the configuration so there will be no performance penalty.
+
+Either way, the configuration will only load once, as it will be cached.
 
 ```typescript
 import {loadConf, getConf} from "lambdaconf";
