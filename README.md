@@ -246,7 +246,7 @@ You can use environment variables as values by wrapping it in `${...}`. For exam
 
 ### Loaders
 
-Loaders are lambda functions that are called during startup (run-time). A great example of this is fetching API keys from AWS Secrets Manager.
+Loaders are lambda functions (the real kind, not AWS Lambdas 😛) that are called during startup (run-time). A great example of this is fetching API keys from AWS Secrets Manager.
 
 Loaders are run once during the type declaration build step (compile-time), and once while the configuration is loading (run-time). They can be normal functions or use async/await/Promise.
 
