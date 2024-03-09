@@ -29,8 +29,7 @@ A small, yet powerful typed and structured config library with lambda support fo
 - Any custom logic can go here, keeping your config files logic-free
 - Provides an easy sharable and reusable plugin interface for sharing or re-use
 
-
-# Table of Contents
+## Table of Contents
 
 - [Installation & Setup](#installation--setup)
 - [Usage](#usage)
@@ -38,50 +37,84 @@ A small, yet powerful typed and structured config library with lambda support fo
   - [Configuration Rules](#configuration-rules)
   - [Loading the Configuration](#loading-the-configuration)
   - [Getting the Config Object](#getting-the-config-object)
-  - [Configuration, Overrides, and Merge Strategy](#configuration-overrides-and-merge-strategy)
+  - [Configuration Merge Strategy](#configuration-merge-strategy)
   - [Using CLI overrides](#using-cli-overrides)
   - [Loaders](#loaders)
+- [Recommended Best Practices](#recommended-best-practices)
 - [Known Issues](#known-issues)
 - [Contribution](#contribution)
 
-# Installation & Setup
+## Installation & Setup
 
-1. Install from `npm`
+### 1. Install from `npm`
 
     ```bash
-    npm i lambdaconf -D
+    npm i lambdaconf
     ```
 
-2. Create a directory called `/conf` in the root of your project. Inside of that, create a `default.json` along with the following folders: `deployments`, `environments`, and `users`. `default.json` is required, everything else is optional. See [full configuration rules](#configuration-rules) and [merge strategy](#configuration-overrides-and-merge-strategy). Here is an example folder structure:
+### 2. Create `conf` directory
 
-    ```shell script
-    root/
-    └── conf/
-        └── deployments
-            └── test.acme.json
-        └── environments
-            └── development.json
-            └── production.json
-        └── users
-            └── john.json
-        └── default.json
-    ```
+Create a directory called `conf` in the root of your project. This is where your configuration will go, along with the generated Conf.d.ts TypeScript Declaration File. 
 
-3. Call `lambdaconf` to build the type declaration file. One option is to add the following to your `package.json` file:
+If you will be using the Environment, User, or Deployment [merge strategies](#configuration-overrides-and-merge-strategy), you will need to create those folders within `conf` as `environments`, `users`, and `deployments`, respectively.
+
+Here's an example `conf` folder:
+
+```shell script
+root/
+└── conf/
+    └── deployments
+        └── test.acme.json
+    └── environments
+        └── development.json
+        └── production.json
+    └── users
+        └── john.json
+    └── default.json
+```
+
+### 3. Create your configuration files
+
+At a minimum, `default.json` is required at the root of your `conf` folder. 
+
+See [full configuration rules](#configuration-rules), [merge strategy](#configuration-overrides-and-merge-strategy), and reference the example folder structure above.
+
+### 4. Typescript Configuration (tsconfig.json)
+
+Make sure the `conf/Conf.d.ts` file will be picked up by your Typescript parser. One way to do this is by including it in your `includes` directive like so:
+
+```json
+  "include":[
+    "src/**/*",
+    "conf/Conf.d.ts"
+  ],
+```
+
+ If you're using `ts-node`, it might help to add the following:
+
+```json
+"ts-node": {
+  "files": true
+}
+```
+
+### 5. Call `lambdaconf` 
+
+Whenever your configuration changes, you'll need to run the `lambdaconf` executable to build the type declaration file. One option is to add the following to your `package.json` file:
     
-    ```json
-    {
-      "scripts": {
-        "prepare": "lambdaconf"
-      }
+  ```json
+  {
+    "scripts": {
+      "prepare": "lambdaconf"
     }
-    ```
+  }
+  ```
 
-    `lambdaconf` must be run any time the configuration has changed. Feel free to set this up however you want. Please be aware, there is a [known issue](#known-issues) with certain IDE's caching this file, and a simple workaround.
-    
-# Usage
+To run this manually, you can run `npx lambdaconf`.
 
-## Example Configuration File
+## Usage
+
+### Example Configuration File
 
 _conf/default.json_
 ```json
@@ -96,11 +129,11 @@ _conf/default.json_
 }
 ```
 
-Yup, it's just JSON, and it will all be typed. You can also use [loaders](#loaders) or [environment variables](#environment-variables-in-config-files).
+You can also use [loaders](#loaders) or [environment variables](#environment-variables-in-config-files).
 
-## Configuration Rules
+### Configuration Rules
 
-- `default.json` is required, everything else is optional. Recommended practice is that this contains all of your "local development" settings.
+- `default.json` is required, everything else is optional. Recommended practice is that `default.json` contains all of your "local development" settings.
 
 - All configuration files must be a subset of `default.json`. Think of them simply as overrides to the default. In Typescript terms, conf files must be of type `Partial<Conf>`.
 
@@ -110,7 +143,7 @@ Yup, it's just JSON, and it will all be typed. You can also use [loaders](#loade
 
 - Arrays should be homogenous (not of mixed types).
 
-## Loading the Configuration
+### Loading the Configuration
 
 You must first *load* the config, which resolves any [loaders](#loaders) and performs the merge.
 
@@ -125,7 +158,7 @@ loadConf().then(() => {
 }).catch(console.log.bind(console));
 ```
 
-## Getting the Config Object
+### Getting the Config Object
 
 Once loaded, use `getConf` to access:
 
@@ -145,7 +178,7 @@ If you need the type interface, you can import it:
 import {Conf} from "lambdaconf";
 ```
 
-## Configuration, Overrides, and Merge Strategy
+### Configuration Merge Strategy
 
 Configurations are merged in this order, with the later ones overriding the earlier ones:
  
@@ -171,7 +204,7 @@ A few notes:
 - [Loaders](#loaders) parameters are simply replaced, not merged. A `loader` instance is treated as a primitive.
 - Arrays are simply replaced, not merged.
 
-## Using CLI Overrides
+### Using CLI Overrides
 
 You can use the `OVERRIDE` environment variable to override properties via CLI. `OVERRIDE` must be valid JSON. Example:
 
@@ -197,7 +230,7 @@ This is especially useful if you want to make use of environment variables (noti
 
 ⚠️ _Use caution! CLI overrides are not checked by Typescript's static type checking, and there is currently no runtime type checking feature. Feel free to submit an issue or PR if you want this._
 
-## Environment Variables in Config Files
+### Environment Variables in Config Files
 
 You can use environment variables as values by wrapping it in `${...}`. For example, to use environment variable `FOO`, use `${FOO}`. This will translate to `process.env.FOO`. These will always be typed as strings. Example config file:
 
@@ -207,13 +240,13 @@ You can use environment variables as values by wrapping it in `${...}`. For exam
 }
 ```
 
-## Loaders
+### Loaders
 
 Loaders are lambda functions that are called during startup (run-time). A great example of this is fetching API keys from AWS Secrets Manager.
 
 Loaders are run once during the type declaration build step (compile-time), and once while the configuration is loading (run-time). They can be normal functions or use async/await/Promise.
 
-### Example
+#### Example
 
 _conf/default.json_
 ```json
@@ -247,7 +280,7 @@ loadConfig(loaders)
     .catch(console.log.bind(console));
 ```
 
-### Usage
+#### Usage
 
 Loader functions must extend `(params: any) => any`. If helpful, you can import the `Loader` type like so:
 
@@ -257,11 +290,19 @@ import type {Loader} from 'lambdaconf';
 
 In a conf file, any object with a single property matching the pattern `/^\[.*\]$/` (`[...]`) is assumed to call a loader. If a matching loader is not found, it will throw a `LoaderNotFound` error.
 
-# Known Issues
+## Recommended Best Practices
 
-1. Some IDEs (particularly IntelliJ/Webstorm) have some issues with caching of the generated `Conf.d.ts file` (which is stored in `node_modules/lambdaconf`). If you run into this problem, try [restarting the Typescript service](https://www.jetbrains.com/help/webstorm/typescript-compiler-tool-window.html#ws_ts_tool_window_toolbar).
+- `default.json` should contain all of your local development settings, and then "progressively enhance" from there.
+- Include `loadConf().then(...)` or `await loadConf()` in your startup process before your server starts listening (ie, before `app.listen()`).
+- Create all of the merge folders (ie. deployments) even if you're not using them.
+- Use AWS Secrets Manager or Hashicorp Vault to store your sensitive information and use a [loader](#loaders) to load them.
 
-# Contribution
+
+## Known Issues
+
+1. Some IDEs (particularly IntelliJ/Webstorm) occasionally have some issues with caching of the generated `Conf.d.ts file` (which is stored in your `conf` folder). If you run into this problem, restarting your TS service.
+
+## Contribution
 
 Please contribute to this project! Issue a PR against `master` and request review. 
 
