@@ -48,9 +48,9 @@ A small, yet powerful typed and structured config library with lambda support fo
 
 ### 1. Install from `npm`
 
-    ```bash
-    npm i lambdaconf
-    ```
+```shell
+npm i lambdaconf
+```
 
 ### 2. Create `conf` directory
 
