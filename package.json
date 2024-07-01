@@ -1,6 +1,6 @@
 {
   "name": "lambdaconf",
-  "version": "0.0.0-autorel",
+  "version": "2.0.17",
   "description": "A small, yet powerful typed and structured config library with lambda support for things like AWS Secrets Manager. Written in Typescript.",
   "license": "MIT",
   "author": "Marc H. Weiner <mhweiner234@gmail.com> (https://mhweiner.com)",
