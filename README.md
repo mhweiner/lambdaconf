@@ -1,31 +1,36 @@
-# lambdaconf
+<picture>
+    <source srcset="docs/lambdaconf.svg" media="(prefers-color-scheme: dark)">
+    <source srcset="docs/lambdaconf-dark.svg" media="(prefers-color-scheme: light)">
+    <img src="docs/lambdaconf-dark.svg" alt="lambdaconf" style="margin: 0 0 10px">
+</picture>
+
+---
 
 [![build status](https://github.com/mhweiner/lambdaconf/actions/workflows/release.yml/badge.svg)](https://github.com/mhweiner/lambdaconf/actions)
-[![semantic-release](https://img.shields.io/badge/semantic--release-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
-[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 [![SemVer](https://img.shields.io/badge/SemVer-2.0.0-blue)]()
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 
 A small, yet powerful typed and structured config library with lambda support for things like AWS Secrets Manager. Written in Typescript.
 
-**Out-of-the-box Typescript support 🔒**
+**🔒 Out-of-the-box Typescript support**
 - Turn your runtime errors into safer compile-time errors! Automatically generated Typescript type definition for configuration object
 
-**Simple & Easy to Use 😃**
+**😃 Simple & Easy to Use**
 - All settings are in simple, easily readable & logic free `.json` files.
 - Highly structured. Any override must satisfy `Partial<DefaultConfig>`
 - Enforces a simple and sensible folder structure
 - Limited yet powerful feature set with clean documentation
 - Small, simple, and modular codebase written in Typescript with no dependencies.
 
-**Flexible & Powerful 💪**
+**💪 Flexible & Powerful**
 - Provides for overrides via CLI without polluting the CLI argument namespace
 - Differentiates between concepts such as `environment`, `deployment`, and `user` and provides an out-of-the-box
   solution with sensible merge strategy
 - Fast. Runtime processing is done during app initialization only.
 - Put [environment variables](#environment-variables-in-config-files) directly into .json files
 
-**Lambda Support 🤖**
-- Works with AWS Secrets Manager, AWS Parameter Store, or custom dynamic lambda functions
+**🤖 Lambda Support**
+- Works with AWS Secrets Manager, AWS Parameter Store, HashiCorp Vault, or custom dynamic lambda functions
 - Any custom logic can go here, keeping your config files logic-free
 - Provides an easy sharable and reusable plugin interface for sharing or re-use
 
@@ -306,21 +311,9 @@ In a conf file, any object with a single property matching the pattern `/^\[.*\]
 
 1. Some IDEs (particularly IntelliJ/Webstorm) occasionally have some issues with caching of the generated `Conf.d.ts file` (which is stored in your `conf` folder). If you run into this problem, restarting your TS service.
 
-## Contribution
+# Support, Feedback, and Contributions
 
-Please contribute to this project! Issue a PR against `master` and request review. 
-
-- Please test your work thoroughly.
-- Make sure all tests pass with appropriate coverage.
-
-## How to build locally
-
-```bash
-npm i
-```
-
-## Running tests
-
-```shell script
-npm test
-```
+- Star this repo if you like it!
+- Submit an [issue](https://github.com/mhweiner/lambdaconf/issues) with your problem, feature request or bug report
+- Issue a PR against `main` and request review. Make sure all tests pass and coverage is good.
+- Write about `lambdaconf` in your blog, tweet about it, or share it with your friends!
