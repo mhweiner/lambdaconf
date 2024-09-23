@@ -10,7 +10,7 @@
 [![SemVer](https://img.shields.io/badge/SemVer-2.0.0-blue)]()
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 
-A small, yet powerful typed and structured config library with lambda support for things like AWS Secrets Manager. Written in Typescript.
+A small, yet powerful typed and structured config library with lambda support for things like AWS Secrets Manager. Written in Typescript. Sponsored by [Aeroview](https://aeroview.io).
 
 **🔒 Out-of-the-box Typescript support**
 - Turn your runtime errors into safer compile-time errors! Automatically generated Typescript type definition for configuration object
@@ -327,3 +327,20 @@ LAMBDA_CONF_DEBUG=1 ts-node src/index.ts
 - Submit an [issue](https://github.com/mhweiner/lambdaconf/issues) with your problem, feature request or bug report
 - Issue a PR against `main` and request review. Make sure all tests pass and coverage is good.
 - Write about `lambdaconf` in your blog, tweet about it, or share it with your friends!
+
+# Sponsorship
+
+Want to sponsor this project? [Reach out to me via email](mailto:mhweiner234@gmail.com?subject=I%20want%20to%20sponsor%20cjs-mock).
+
+<picture>
+    <source srcset="docs/aeroview-logo-lockup-dark.svg" media="(prefers-color-scheme: dark)">
+    <source srcset="docs/aeroview-logo-lockup.svg" media="(prefers-color-scheme: light)">
+    <img src="docs/aeroview-logo-lockup.svg" alt="Logo" style="max-width: 150px;margin: 0 0 10px">
+</picture>
+
+Aeroview is a lightning-fast, developer-friendly, and AI-powered logging IDE. Get started for free at [https://aeroview.io](https://aeroview.io).
+
+# License
+
+MIT &copy; Marc H. Weiner
+[See full license](LICENSE)
