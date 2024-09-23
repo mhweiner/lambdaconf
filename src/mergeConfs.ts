@@ -1,13 +1,12 @@
-import {AnyObject} from './index';
 import {isLoader} from './isLoader';
 
 export function mergeConfs(p: {
-    Default: AnyObject
-    environment?: AnyObject
-    deployment?: AnyObject
-    user?: AnyObject
-    overrides?: AnyObject
-}): AnyObject {
+    Default: Record<string, any>
+    environment?: Record<string, any>
+    deployment?: Record<string, any>
+    user?: Record<string, any>
+    overrides?: Record<string, any>
+}): Record<string, any> {
 
     // put into order of importance, least to most
     const configs = [
@@ -22,7 +21,7 @@ export function mergeConfs(p: {
 
 }
 
-function mergeConfigs(obj1: {[key: string]: any}, obj2: {[key: string]: any}): AnyObject {
+function mergeConfigs(obj1: Record<string, any>, obj2: Record<string, any>): Record<string, any> {
 
     const merged = {...obj1, ...obj2};
 

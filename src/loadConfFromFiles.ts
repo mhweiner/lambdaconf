@@ -1,15 +1,14 @@
 import {loadConfFile} from './loadConfFile';
-import {AnyObject} from './index';
 
 export function loadConfFromFiles(p: {
     environment?: string
     deployment?: string
     user?: string
 }): {
-        Default: AnyObject
-        environment: AnyObject
-        deployment: AnyObject
-        user: AnyObject
+        Default: Record<string, any>
+        environment: Record<string, any>
+        deployment: Record<string, any>
+        user: Record<string, any>
     } {
 
     return {

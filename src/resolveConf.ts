@@ -1,12 +1,12 @@
 import {isLoader} from './isLoader';
-import type {AnyObject, LoaderDict} from '.';
+import type {LoaderDict} from '.';
 import {LoaderNotFound} from './errors';
 import {isEnvironmentVariable} from './isEnvironmentVariable';
 
 export async function resolveConf(
     obj: {[key: string]: any},
     loaders: LoaderDict,
-): Promise<AnyObject> {
+): Promise<Record<string, any>> {
 
     const resolvedConfig = {...obj};
 

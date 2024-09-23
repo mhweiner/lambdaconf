@@ -1,21 +1,21 @@
 import {InvalidConf} from './errors';
-import {AnyObject} from './index';
+import {toResult} from './lib/toResult';
 
-export function getEnvOverrides(): AnyObject {
+export function getEnvOverrides(): Record<string, any> {
 
     const overrides = process.env.OVERRIDE;
 
     if (overrides) {
 
-        try {
+        const [err, json] = toResult(() => JSON.parse(overrides));
 
-            return JSON.parse(overrides) as AnyObject;
+        if (err) {
 
-        } catch (e) {
-
-            throw new InvalidConf(['process.env.OVERRIDES is not valid JSON']);
+            throw new InvalidConf(['process.env.OVERRIDE is not valid JSON']);
 
         }
+
+        return json;
 
     } else {
 

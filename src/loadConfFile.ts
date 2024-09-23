@@ -1,13 +1,12 @@
 import {readFileSync} from 'fs';
 import {InvalidConf} from './errors';
 import {getConfDir} from './getConfDir';
-import {AnyObject} from './index';
 
 /**
  * Loads a configuration file. Do not pass the config directory path, this is assumed.
  * @param path
  */
-export function loadConfFile(path: string): AnyObject {
+export function loadConfFile(path: string): Record<string, any> {
 
     let fileContent;
 
@@ -23,7 +22,7 @@ export function loadConfFile(path: string): AnyObject {
 
     try {
 
-        return JSON.parse(fileContent) as AnyObject;
+        return JSON.parse(fileContent) as Record<string, any>;
 
     } catch (e) {
 

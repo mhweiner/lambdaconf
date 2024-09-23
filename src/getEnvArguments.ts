@@ -1,11 +1,10 @@
 import {getEnvOverrides} from './getEnvOverrides';
-import {AnyObject} from './index';
 
 export function getEnvArguments(): {
     environment: string
     deployment: string
     user: string
-    overrides: AnyObject
+    overrides: Record<string, any>
 } {
 
     return {

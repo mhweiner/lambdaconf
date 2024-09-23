@@ -34,7 +34,7 @@ A small, yet powerful typed and structured config library with lambda support fo
 - Any custom logic can go here, keeping your config files logic-free
 - Provides an easy sharable and reusable plugin interface for sharing or re-use
 
-## Table of Contents
+# Table of Contents
 
 - [Installation & Setup](#installation--setup)
 - [Usage](#usage)
@@ -45,19 +45,20 @@ A small, yet powerful typed and structured config library with lambda support fo
   - [Configuration Merge Strategy](#configuration-merge-strategy)
   - [Using CLI overrides](#using-cli-overrides)
   - [Loaders](#loaders)
+  - [Debugging](#debugging)
 - [Recommended Best Practices](#recommended-best-practices)
 - [Known Issues](#known-issues)
 - [Contribution](#contribution)
 
-## Installation & Setup
+# Installation & Setup
 
-### 1. Install from `npm`
+## 1. Install from `npm`
 
 ```shell
 npm i lambdaconf
 ```
 
-### 2. Create `conf` directory
+## 2. Create `conf` directory
 
 Create a directory called `conf` in the root of your project. This is where your configuration will go, along with the generated Conf.d.ts TypeScript Declaration File. 
 
@@ -78,13 +79,13 @@ root/
     └── default.json
 ```
 
-### 3. Create your configuration files
+## 3. Create your configuration files
 
 At a minimum, `default.json` is required at the root of your `conf` folder. 
 
 See [full configuration rules](#configuration-rules), [merge strategy](#configuration-overrides-and-merge-strategy), and reference the example folder structure above.
 
-### 4. Typescript Configuration (tsconfig.json)
+## 4. Typescript Configuration (tsconfig.json)
 
 Make sure the generated `conf/Conf.d.ts` file will be picked up by your Typescript parser. One way to do this is by including it in your `include` directive like so:
 
@@ -103,7 +104,7 @@ Make sure the generated `conf/Conf.d.ts` file will be picked up by your Typescri
 }
 ```
 
-### 5. Call `lambdaconf` 
+## 5. Call `lambdaconf` 
 
 Whenever your configuration changes, you'll need to run the `lambdaconf` executable to build the type declaration file. One option is to add the following to your `package.json` file:
     
@@ -117,9 +118,9 @@ Whenever your configuration changes, you'll need to run the `lambdaconf` executa
 
 To run this manually, you can run `npx lambdaconf`.
 
-## Usage
+# Usage
 
-### Example Configuration File
+## Example Configuration File
 
 _conf/default.json_
 ```json
@@ -136,7 +137,7 @@ _conf/default.json_
 
 You can also use [loaders](#loaders) or [environment variables](#environment-variables-in-config-files).
 
-### Configuration Rules
+## Configuration Rules
 
 - `default.json` is required, everything else is optional. Recommended practice is that `default.json` contains all of your "local development" settings.
 
@@ -148,7 +149,7 @@ You can also use [loaders](#loaders) or [environment variables](#environment-var
 
 - Arrays should be homogenous (not of mixed types).
 
-### Loading the Configuration
+## Loading the Configuration
 
 You must first *load* the config, which resolves any [loaders](#loaders) and performs the merge. 
 
@@ -167,7 +168,7 @@ loadConf().then(() => {
 }).catch(console.log.bind(console));
 ```
 
-### Getting the Config Object
+## Getting the Config Object
 
 Once loaded, use `getConf` to access:
 
@@ -187,7 +188,7 @@ If you need the type interface, you can import it:
 import {Conf} from "lambdaconf";
 ```
 
-### Configuration Merge Strategy
+## Configuration Merge Strategy
 
 Configurations are merged in this order, with the later ones overriding the earlier ones:
  
@@ -213,7 +214,7 @@ A few notes:
 - [Loaders](#loaders) parameters are simply replaced, not merged. A `loader` instance is treated as a primitive.
 - Arrays are simply replaced, not merged.
 
-### Using CLI Overrides
+## Using CLI Overrides
 
 You can use the `OVERRIDE` environment variable to override properties via CLI. `OVERRIDE` must be valid JSON. Example:
 
@@ -239,7 +240,7 @@ This is especially useful if you want to make use of environment variables (noti
 
 ⚠️ _Use caution! CLI overrides are not checked by Typescript's static type checking, and there is currently no runtime type checking feature. Feel free to submit an issue or PR if you want this._
 
-### Environment Variables in Config Files
+## Environment Variables in Config Files
 
 You can use environment variables as values by wrapping it in `${...}`. For example, to use environment variable `FOO`, use `${FOO}`. This will translate to `process.env.FOO`. These will always be typed as strings. Example config file:
 
@@ -249,13 +250,13 @@ You can use environment variables as values by wrapping it in `${...}`. For exam
 }
 ```
 
-### Loaders
+## Loaders
 
 Loaders are lambda functions (the real kind, not AWS Lambdas 😛) that are called during startup (run-time). A great example of this is fetching API keys from AWS Secrets Manager.
 
 Loaders are run once during the type declaration build step (compile-time), and once while the configuration is loading (run-time). They can be normal functions or use async/await/Promise.
 
-#### Example
+### Example
 
 _conf/default.json_
 ```json
@@ -289,7 +290,7 @@ loadConfig(loaders)
     .catch(console.log.bind(console));
 ```
 
-#### Usage
+### Usage
 
 Loader functions must extend `(params: any) => any`. If helpful, you can import the `Loader` type like so:
 
@@ -299,15 +300,24 @@ import type {Loader} from 'lambdaconf';
 
 In a conf file, any object with a single property matching the pattern `/^\[.*\]$/` (`[...]`) is assumed to call a loader. If a matching loader is not found, it will throw a `LoaderNotFound` error.
 
-## Recommended Best Practices
+# Recommended Best Practices
 
 - `default.json` should contain all of your local development settings, and then "progressively enhance" from there.
 - Include `loadConf().then(...)` or `await loadConf()` in your startup process before your server starts listening (ie, before `app.listen()`).
 - Create all of the merge folders (ie. deployments) even if you're not using them.
 - Use AWS Secrets Manager or Hashicorp Vault to store your sensitive information and use a [loader](#loaders) to load them.
 
+## Debugging
 
-## Known Issues
+You can set the `LAMBDA_CONF_DEBUG` environment variable to see debug output. Example:
+
+```shell script
+LAMBDA_CONF_DEBUG=1 ts-node src/index.ts
+```
+
+> ‼️ Use with caution! This may output sensitive information to the console.
+
+# Known Issues
 
 1. Some IDEs (particularly IntelliJ/Webstorm) occasionally have some issues with caching of the generated `Conf.d.ts file` (which is stored in your `conf` folder). If you run into this problem, restarting your TS service.
 
